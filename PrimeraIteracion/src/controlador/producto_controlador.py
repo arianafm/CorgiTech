@@ -20,7 +20,32 @@ def actualizar():
   """ Actualiza un producto
       
   """
-  return 0
+  id = request.json['id']
+  nombre = request.json['nombre']
+  descripcion = request.json['descripcion']
+  imagen = request.json['imagen']
+  precio = request.json['precio']
+  palabras_clave = request.json['palabras_clave']
+
+  print(request.json)
+
+  producto = Producto.query.get(id)
+
+  if nombre != None:
+    producto.nombre = nombre
+  if descripcion != None:
+    producto.descripcion = descripcion
+  if imagen != None:
+    producto.imagen = imagen
+  if precio != None:
+    producto.precio = 100
+  if palabras_clave != None:
+    producto.palabras_clave = palabras_clave
+
+  db.session.merge(producto)
+  db.session.commit()
+
+  return "Se actualizó con éxito"
 
 def agregar():
     nombre = request.json['nombre']
