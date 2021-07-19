@@ -14,9 +14,8 @@ CREATE TABLE usuario (
   usuario VARCHAR(20) NOT NULL,
   correo VARCHAR(50) NOT NULL,
   telefono CHAR(10) NOT NULL,
-  contraseña VARCHAR(10) NOT NULL,
+  contrasena VARCHAR(10) NOT NULL,
   CONSTRAINT PK_usuarioUsuario PRIMARY KEY (usuario),
-  CONSTRAINT check_correo CHECK (correo LIKE '[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})'),
   CONSTRAINT unique_usuario UNIQUE (usuario),
   CONSTRAINT unique_correo UNIQUE (correo)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
