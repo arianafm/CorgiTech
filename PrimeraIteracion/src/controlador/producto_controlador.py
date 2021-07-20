@@ -1,12 +1,6 @@
 import sys
-from flask import Flask, render_template, redirect, url_for, request, abort, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
-from modelo.producto import Producto
-
-app = Flask(__name__)
-db = SQLAlchemy()
-ma = Marshmallow(app)
+from flask import render_template, redirect, url_for, request, abort, jsonify
+from modelo.producto import Producto, db, ma
 
 class ProductoEsquema(ma.Schema):
   class Meta:
