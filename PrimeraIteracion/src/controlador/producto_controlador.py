@@ -1,12 +1,6 @@
 import sys
-from flask import Flask, render_template, redirect, url_for, request, abort, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
-from modelo.producto import Producto
-
-app = Flask(__name__)
-db = SQLAlchemy()
-ma = Marshmallow(app)
+from flask import render_template, redirect, url_for, request, abort, jsonify
+from modelo.producto import Producto, db, ma
 
 class ProductoEsquema(ma.Schema):
   class Meta:
@@ -48,13 +42,14 @@ def actualizar():
   return "Se actualizó con éxito"
 
 def agregar():
+    """ Agrega un producto
+        
+    """
     nombre = request.json['nombre']
     descripcion = request.json['descripcion']
     imagen = request.json['imagen']
     precio = request.json['precio']
     palabras_clave = request.json['palabras_clave']
-    #cantidad_vendidos = request.json['cantidad_vendidos']
-    #id = request.json['id']
 
     producto_nuevo = Producto(nombre, descripcion, imagen, 
                               precio, palabras_clave)
