@@ -3,7 +3,7 @@ import sys
 import random
 import string
 import modelo.usuario
-from flask import Flask, render_template, redirect, url_for, request, abort, jsonify
+from flask import Flask, render_template, redirect, url_for, request, abort, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from cryptography.fernet import Fernet
@@ -12,9 +12,9 @@ from flask_mail import Mail, Message
 app = Flask(__name__)
 db = SQLAlchemy()
 ma = Marshmallow(app)
-key = Fernet.generate_key()
-fernet = Fernet(key)
+fernet = Fernet(b'tJg6ll_KljmoKvledZzcDBFskn7w3OmMokimkGBnFP0=')
 mail= Mail(app)
+nombre_de_usuario = ''
 correo = ''
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
@@ -81,10 +81,31 @@ def correo_confirmacion():
 
 
 def login():
-  return 0
+  """ 
+  Función que dados los datos recabados en el
+  JSON que recibimos como petición (usuario y
+  contrasena) hace la busqueda del usuario en
+  la base de datos para posteriormente si se
+  encuentra al usuario y su contraseña es co-
+  rrecta le de acceso al sistema, en otro caso
+  se le niega el acceso.
+  """
+  global nombre_de_usuario 
 
-def coinciden_contrasenas(self, contraseña):
-  return self.contraseña == contraseña
+  usuario = request.json['usuario']
+  contrasena = request.json['contrasena']
+
+  usuario_login = modelo.usuario.Usuario.query.filter_by(usuario = usuario).first()  
+
+  nombre_de_usuario = usuario_login.usuario
+  if(nombre_de_usuario is not None and contrasena == str(fernet.decrypt(usuario_login.contrasena.encode()).decode())):
+    return "Bienvenido"
+  else:
+    return "Sucedio algo"
+  
+# Creo que este lo vamos a borrar no lo veo muy necesario.
+# def coinciden_contrasenas(self, contraseña):
+#   return self.contraseña == contraseña
 
 def logout():
   return 0
