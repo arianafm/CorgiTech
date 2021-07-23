@@ -11,17 +11,13 @@ producto_esquema = ProductoEsquema()
 productos_esquema = ProductoEsquema(many=True)
 
 def actualizar():
-  """ Actualiza un producto
-      
-  """
+  """Actualiza un producto."""
   id = request.json['id']
   nombre = request.json['nombre']
   descripcion = request.json['descripcion']
   imagen = request.json['imagen']
   precio = request.json['precio']
   palabras_clave = request.json['palabras_clave']
-
-  print(request.json)
 
   producto = Producto.query.get(id)
 
@@ -41,10 +37,8 @@ def actualizar():
 
   return "Se actualizó con éxito"
 
-def agregar():
-    """ Agrega un producto
-        
-    """
+def crear():
+    """Crea un producto."""
     nombre = request.json['nombre']
     descripcion = request.json['descripcion']
     imagen = request.json['imagen']
@@ -60,21 +54,15 @@ def agregar():
     return producto_esquema.jsonify(producto_nuevo)
 
 def comprar():
-  """ Elimina un producto
-      
-  """
+  """Compra un producto."""
   return 0
 
 def consultar():
-  """ Elimina un producto
-      
-  """
+  """Consulta un producto."""
   return 0
 
 def eliminar():
-  """ Elimina un producto
-      
-  """
+  """Elimina un producto."""
   producto = Producto.query.get(request.json['id'])
   
   db.session.delete(producto)
@@ -83,7 +71,5 @@ def eliminar():
   return "Producto eliminado"
 
 def index():
-  """ Elimina un producto
-      
-  """
+  """Página principal para CRUD producto."""
   return jsonify ({'msg': 'Esta es la página de publicaciones'})
