@@ -75,7 +75,12 @@ def eliminar():
   """ Elimina un producto
       
   """
-  return 0
+  producto = Producto.query.get(request.json['id'])
+  
+  db.session.delete(producto)
+  db.session.commit()
+
+  return "Producto eliminado"
 
 def index():
   """ Elimina un producto
