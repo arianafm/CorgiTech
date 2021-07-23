@@ -3,6 +3,8 @@ import sys
 import random
 import string
 import modelo.usuario
+
+from flask.helpers import make_response
 from flask import Flask, render_template, redirect, url_for, request, abort, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
@@ -12,11 +14,16 @@ from flask_mail import Mail, Message
 app = Flask(__name__)
 db = SQLAlchemy()
 ma = Marshmallow(app)
+
+# Inicializar la clase Fernet con la llave que generamos.
 fernet = Fernet(b'tJg6ll_KljmoKvledZzcDBFskn7w3OmMokimkGBnFP0=')
+# Creamos una instancia de la clase correo.
 mail= Mail(app)
+
 nombre_de_usuario = ''
 correo = ''
 
+# Configuraciones pertenecientes a flask_mail.
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'corgitech2021@gmail.com'
@@ -95,17 +102,22 @@ def login():
   usuario = request.json['usuario']
   contrasena = request.json['contrasena']
 
+  if(usuario == '' or contrasena == ''):
+    abort(400, 'Todos los campos son obligatorios')
+
+  # Nos devuelve un usuario (objeto) dado el usuario de la petición. 
   usuario_login = modelo.usuario.Usuario.query.filter_by(usuario = usuario).first()  
 
+  if(usuario_login is None):
+    abort(404, 'El nombre de usuario no está asociado a ningún registro.')
+
   nombre_de_usuario = usuario_login.usuario
-  if(nombre_de_usuario is not None and contrasena == str(fernet.decrypt(usuario_login.contrasena.encode()).decode())):
+
+  if(contrasena == str(fernet.decrypt(usuario_login.contrasena.encode()).decode())):
     return "Bienvenido"
   else:
-    return "Sucedio algo"
+    abort(400, 'La contraseña es incorrecta.')
   
-# Creo que este lo vamos a borrar no lo veo muy necesario.
-# def coinciden_contrasenas(self, contraseña):
-#   return self.contraseña == contraseña
 
 def logout():
   return 0
