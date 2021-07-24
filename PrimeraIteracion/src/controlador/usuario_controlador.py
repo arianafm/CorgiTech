@@ -64,10 +64,17 @@ def registrar():
   correo = request.json['correo']
   telefono = request.json['telefono']
 
-  usuario_nuevo = modelo.usuario.Usuario(usuario, correo, telefono)
+  if(usuario == '' or correo == '' or telefono == ''):
+    abort(400, 'Todos los campos son obligatorios')
 
-  db.session.add(usuario_nuevo)
-  db.session.commit()
+  try:
+    usuario_nuevo = modelo.usuario.Usuario(usuario, correo, telefono)
+
+    db.session.add(usuario_nuevo)
+    db.session.commit()
+  except:
+    db.session.rollback()
+    raise abort(500, 'Ocurrió un error al añadir el registro del usuario a la base de datos.')
   
   return redirect(url_for('usuario_bp.correo_confirmacion'))
 
@@ -83,7 +90,14 @@ def correo_confirmacion():
   usuario_actual = modelo.usuario.Usuario.query.filter_by(correo = correo).first()
   msg = Message('MercaTodo: Correo de confirmación', sender = 'corgitech2021@gmail.com', recipients = [usuario_actual.correo])
   msg.body =  'Gracias por crear su cuenta en MercaTodo.\n' + 'Su contrasena para acceder al sistema es:\n' + str(fernet.decrypt(usuario_actual.contrasena.encode()).decode())
-  mail.send(msg)
+
+  try:
+    mail.send(msg)
+  except:
+    db.session.query(modelo.usuario.Usuario).filter_by(correo=correo).delete()
+    db.session.commit()
+    raise abort(500, 'Ocurrió un error al intentar enviar correo de confirmación al usuario. Intente hacer nuevamente su registro.')
+
   return "Correo enviado."
 
 
