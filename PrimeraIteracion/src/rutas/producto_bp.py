@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controlador.producto_controlador import index, crear, eliminar, actualizar
+from controlador.producto_controlador import index, crear, actualizar
 
 producto_bp = Blueprint('producto_bp', __name__)
 

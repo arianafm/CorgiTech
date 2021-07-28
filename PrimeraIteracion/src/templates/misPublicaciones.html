@@ -39,8 +39,10 @@
   </div>
 </nav>
 </div>  
+
 <div class="container mt-5">
-    <table class="table table-sm table-condensed table-stripped arrange-vertically">
+    {% include '_messages.html' %}
+    <table class="table table-sm table-condensed table-stripped">
         <thead>
             <th>Id</th>
             <th>Nombre</th>
@@ -59,9 +61,30 @@
               <td><button type="button" class="btn btn-outline-primary btn-sm">
                 Actualizar
               </button></td>
-              <td><form action="" method="POST" ><button class="btn btn-outline-danger" type="submit" name="eliminar" value={{producto.id}}><span class="glyphicon glyphicon-trash"></span>Eliminar</button> </form></td>
+              <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                Eliminar</button></td>
             </tr>
-            <!--  -->
+<!--============= MODEL ===================-->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">{{producto.nombre}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ¿Estás seguro de eliminar {{producto.nombre}}?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                  <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="eliminar" value={{producto.id}}><span class="glyphicon glyphicon-trash"></span>Confirmar</button> </form>
+                </div>
+              </div>
+            </div>
+          </div>
+<!--==============MODEL ===================-->
             {% endfor %}
         </tbody>
     </table>
