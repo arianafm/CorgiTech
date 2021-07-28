@@ -5,6 +5,7 @@ import random
 import string
 import modelo.usuario
 from templates.RegistrarUsuario.forms import CommentForm
+from templates.IniciarSesion.forms import LoginForm
 
 from flask.helpers import make_response
 from flask import Flask, render_template, redirect, url_for, request, abort, jsonify, session
@@ -122,25 +123,24 @@ def login():
   """
   global nombre_de_usuario 
 
-  usuario = request.json['usuario']
-  contrasena = request.json['contrasena']
+  login_form = LoginForm(request.form)
 
-  if(usuario == '' or contrasena == ''):
-    abort(400, 'Todos los campos son obligatorios')
+  if request.method == 'POST' and login_form.validate():
+    # Nos devuelve un usuario (objeto) dado el usuario de la petición. 
+    usuario_login = modelo.usuario.Usuario.query.filter_by(usuario = login_form.usuario.data).first()
 
-  # Nos devuelve un usuario (objeto) dado el usuario de la petición. 
-  usuario_login = modelo.usuario.Usuario.query.filter_by(usuario = usuario).first()  
+    if(usuario_login is None):
+      abort(404, 'El nombre de usuario no está asociado a ningún registro.')
+    
+    nombre_de_usuario = login_form.usuario.data
 
-  if(usuario_login is None):
-    abort(404, 'El nombre de usuario no está asociado a ningún registro.')
+    if(login_form.contrasena.data == str(fernet.decrypt(usuario_login.contrasena.encode()).decode())):
+      #Aquí iría el session
+      return "Bienvenido"
+    else:
+      return "Contraseña incorrecta, inténtelo de nuevo."
 
-  nombre_de_usuario = usuario_login.usuario
-
-  if(contrasena == str(fernet.decrypt(usuario_login.contrasena.encode()).decode())):
-    return "Bienvenido"
-  else:
-    abort(400, 'La contraseña es incorrecta.')
-  
+  return render_template('/IniciarSesion/index.html', form = login_form)
 
 def logout():
   return 0
