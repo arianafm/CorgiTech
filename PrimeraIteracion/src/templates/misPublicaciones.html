@@ -46,21 +46,22 @@
             <th>Nombre</th>
             <th>Precio</th>
             <th>Descripción</th>
+            <th>Actualizar</th>
+            <th>Eliminar</th>
         </thead>
         <tbody>
             {% for producto in productos %}
             <tr>
-              <td style="vertical-align">{{loop.index}}</td>
-              <td style="vertical-align">{{producto.nombre}}</td>
-              <td style="vertical-align">{{producto.precio}}</td>
-              <td style="vertical-align">{{producto.descripcion}}</td>
+              <td>{{loop.index}}</td>
+              <td>{{producto.nombre}}</td>
+              <td>{{producto.precio}}</td>
+              <td>{{producto.descripcion}}</td>
               <td><button type="button" class="btn btn-outline-primary btn-sm">
                 Actualizar
               </button></td>
-              <td><button type="button" class="btn btn-outline-danger btn-sm">
-                Eliminar
-              </button></td>
+              <td><form action="" method="POST" ><button class="btn btn-outline-danger" type="submit" name="eliminar" value={{producto.id}}><span class="glyphicon glyphicon-trash"></span>Eliminar</button> </form></td>
             </tr>
+            <!--  -->
             {% endfor %}
         </tbody>
     </table>
