@@ -11,7 +11,7 @@ body {
 
 .page_wrap
 {
-    padding-top: 100px;
+    padding-top: 70px;
     width: 250px;
     height: 100px;
     margin-left: auto;
@@ -20,5 +20,4 @@ body {
 
 .aviso-container {
 	font-size: small;
-	color: #A5AAB6;
 }

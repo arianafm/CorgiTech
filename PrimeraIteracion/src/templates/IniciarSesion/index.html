@@ -5,10 +5,9 @@
         <title>Iniciar sesión</title>
         <meta charset="utf-8">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link href="../../static/RegistrarUsuario/registrar_usuario.css"  rel="stylesheet">
+        <link href="../../static/IniciarSesion/iniciar_sesion.css"  rel="stylesheet">
     </head>
     <body>
-        
         <div class="page_wrap">
             <div>
                 <img src="../../static/logo.png" alt="" width="150" height="150">
@@ -24,9 +23,16 @@
                 <form method="POST">
                     {{render_field(form.usuario, class="form-control")}}
                     {{render_field(form.contrasena, class="form-control")}}
-                    <button type="submit" name="enviar" class="btn btn-secondary">Enviar</button>
+                    <button type="submit" name="enviar" class="m-2 btn btn-secondary">Enviar</button>
+                    <div class="row m-2">
+                        {% for message in get_flashed_messages() %}
+                            <div>
+                                <li class="aviso-container">{{ message }}</li>
+                            </div>
+                        {% endfor %}
+                    </div>
                     <hr>
-                    <div class="aviso-container">
+                    <div class="aviso-container p-2">
                         ¿Aún no tienes cuenta? 
                     </div>
                     <div>
@@ -36,6 +42,12 @@
                 </form>
                 {% endblock %}
             </div>
+            <!-- <div class="row">
+                <hr>
+                {% for message in get_flashed_messages() %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div> -->
         </div>
     </body>
 </html>

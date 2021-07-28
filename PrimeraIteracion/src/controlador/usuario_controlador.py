@@ -8,7 +8,7 @@ from templates.RegistrarUsuario.forms import CommentForm
 from templates.IniciarSesion.forms import LoginForm
 
 from flask.helpers import make_response
-from flask import Flask, render_template, redirect, url_for, request, abort, jsonify, session
+from flask import Flask, render_template, redirect, url_for, request, abort, jsonify, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from cryptography.fernet import Fernet
@@ -130,7 +130,8 @@ def login():
     usuario_login = modelo.usuario.Usuario.query.filter_by(usuario = login_form.usuario.data).first()
 
     if(usuario_login is None):
-      abort(404, 'El nombre de usuario no está asociado a ningún registro.')
+      flash("El nombre de usuario no está asociado a ningún registro.")
+      return render_template('/IniciarSesion/index.html', form = login_form)
     
     nombre_de_usuario = login_form.usuario.data
 
@@ -138,7 +139,8 @@ def login():
       #Aquí iría el session
       return "Bienvenido"
     else:
-      return "Contraseña incorrecta, inténtelo de nuevo."
+      flash("Contraseña incorrecta, inténtelo de nuevo.")
+      return render_template('/IniciarSesion/index.html', form = login_form)
 
   return render_template('/IniciarSesion/index.html', form = login_form)
 

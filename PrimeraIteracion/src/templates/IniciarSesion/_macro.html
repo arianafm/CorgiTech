@@ -1,12 +1,13 @@
+<link href="../../static/IniciarSesion/iniciar_sesion.css"  rel="stylesheet">
 {% macro render_field(field) %}
     <td> {{ field.label }} </td>
     <dd> {{ field(**kwargs)|safe}} </dd>
 
     {% if field.errors %}
-        <ul>
+        <div>
             {% for error in field.errors %}
-            <li> {{ error }} </li>
+            <li class="aviso-container"> {{ error }} </li>
             {% endfor%}
-        </ul>
+        </div>
     {% endif %}
 {% endmacro %}
