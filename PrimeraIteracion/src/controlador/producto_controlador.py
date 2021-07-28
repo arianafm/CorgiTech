@@ -62,17 +62,16 @@ def consultar():
   """Consulta un producto."""
   return 0
 
-def eliminar():
-  """Elimina un producto."""
-  producto = Producto.query.get(request.json['id'])
-  
-  db.session.delete(producto)
-  db.session.commit()
-
-  return "Producto eliminado"
-
 def index():
-  """Página principal para CRUD producto."""
-  productos = Producto.query.all()
+  """Página principal de Mis Publicaciones."""
 
-  return render_template('misPublicaciones.html', title='Mis Publicaciones', productos=productos)
+  if 'eliminar' in request.form:
+    id = request.form.get('eliminar')
+    producto = Producto.query.get(id)
+  
+    db.session.delete(producto)
+    db.session.commit()
+
+    return redirect('/producto')
+
+  return render_template('misPublicaciones.html', title='Mis Publicaciones', productos=Producto.query.all())
