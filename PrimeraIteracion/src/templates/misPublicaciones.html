@@ -1,5 +1,12 @@
 {% extends 'layout.html' %}
 {% block content %}
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+</style>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -41,31 +48,30 @@
 </div>  
 
 <div class="container mt-5">
-    {% include '_messages.html' %}
-    <table class="table table-sm table-condensed table-stripped">
+    <table class="table">
         <thead>
-            <th>Id</th>
+            <th></th>
             <th>Nombre</th>
             <th>Precio</th>
             <th>Descripción</th>
-            <th>Actualizar</th>
-            <th>Eliminar</th>
+            <th></th>
+            <th></th>
         </thead>
         <tbody>
             {% for producto in productos %}
             <tr>
-              <td>{{loop.index}}</td>
+              <td><img src={{producto.imagen}} width="100" height="100"></td>
               <td>{{producto.nombre}}</td>
-              <td>{{producto.precio}}</td>
+              <td>${{producto.precio}}</td>
               <td>{{producto.descripcion}}</td>
-              <td><button type="button" class="btn btn-outline-primary btn-sm">
+              <td><button type="button" class="btn btn-outline-primary">
                 Actualizar
               </button></td>
-              <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter">
+              <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#Modal-{{producto.id}}">
                 Eliminar</button></td>
             </tr>
 <!--============= MODEL ===================-->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="Modal-{{producto.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
