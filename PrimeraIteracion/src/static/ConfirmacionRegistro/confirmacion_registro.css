@@ -1,0 +1,38 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: #BAD9DE;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background {
+	background-color: #F8F8F8;
+    padding: 10%;
+}
+    
+.img-container {
+	text-align: center;
+}
+
+.text-container {
+	text-align: center;
+}
+
+.correo-container {
+	margin: 20px 0px;
+	font-weight: bold;
+}
+
+.aviso-container {
+	font-size: x-small;
+	color: #A5AAB6;
+}

@@ -1,0 +1,19 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    text-align: center;
+    background-color: #BAD9DE;
+}
+
+.page_wrap
+{
+    padding-top: 100px;
+    width: 250px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}

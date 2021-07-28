@@ -1,8 +1,10 @@
 import re
+import os
 import sys
 import random
 import string
 import modelo.usuario
+from templates.RegistrarUsuario.forms import CommentForm
 
 from flask.helpers import make_response
 from flask import Flask, render_template, redirect, url_for, request, abort, jsonify, session
@@ -10,6 +12,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from cryptography.fernet import Fernet
 from flask_mail import Mail, Message
+
+template_dir = os.path.abspath('../../templates')
 
 app = Flask(__name__)
 db = SQLAlchemy()
@@ -60,23 +64,28 @@ def registrar():
   """
   global correo
 
-  usuario = request.json['usuario']
-  correo = request.json['correo']
-  telefono = request.json['telefono']
+  comment_form = CommentForm(request.form)
 
-  if(usuario == '' or correo == '' or telefono == ''):
-    abort(400, 'Todos los campos son obligatorios')
+  correo = comment_form.correo.data
 
-  try:
-    usuario_nuevo = modelo.usuario.Usuario(usuario, correo, telefono)
+  if request.method == 'POST' and comment_form.validate():
 
-    db.session.add(usuario_nuevo)
-    db.session.commit()
-  except:
-    db.session.rollback()
-    raise abort(500, 'Ocurrió un error al añadir el registro del usuario a la base de datos.')
-  
-  return redirect(url_for('usuario_bp.correo_confirmacion'))
+    try:
+      usuario_nuevo = modelo.usuario.Usuario( usuario = comment_form.usuario.data,
+                                              correo = comment_form.correo.data,
+                                              telefono = comment_form.telefono.data
+                                            )
+      db.session.add(usuario_nuevo)
+      db.session.commit()
+    except:
+      db.session.rollback()
+      raise abort(500, 'Ocurrió un error al añadir el registro del usuario a la base de datos.')
+    
+    return redirect(url_for('usuario_bp.correo_confirmacion'))
+    
+  else:
+    return render_template('/RegistrarUsuario/index.html', form = comment_form)
+
 
 def correo_confirmacion():
   """ 
@@ -98,7 +107,7 @@ def correo_confirmacion():
     db.session.commit()
     raise abort(500, 'Ocurrió un error al intentar enviar correo de confirmación al usuario. Intente hacer nuevamente su registro.')
 
-  return "Correo enviado."
+  return render_template('/ConfirmacionRegistro/index.html', correo=correo)
 
 
 def login():
