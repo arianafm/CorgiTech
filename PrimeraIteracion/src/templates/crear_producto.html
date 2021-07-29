@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Crear Producto - Mercatodo</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/checkout/">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+  <!-- Tipografia 1 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
+
+  <!-- Tipografía 2 -->
+  <link href="https://fonts.googleapis.com/css2?family=Acme&family=Balsamiq+Sans&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+
+
+  <!-- Custom styles for this template -->
+  <link href="form-validation.css" rel="stylesheet">
+
+  <script type="text/javascript">
+    (function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+  </script>
+
+  <body class="page_background">
+
+    <header class="p-3 text-white header">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+        <a href="">
+          <img src="logo.png" width="70">
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" class="nav-link px-2 text-white">Inicio</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Lo más vendido</a></li>
+        </ul>
+
+        <div class="col-3"></div>
+
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+          <input type="search" class="form-control form-control-dark" placeholder="Buscar..." aria-label="Search">
+        </form>
+
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2">Entrar</button>
+          <button type="button" class="btn btn-warning">Registrarse</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+    <div class="container container_form">
+      <main>
+        <div class="py-5 text-center">
+          <p class="lead">Ingresa todos la la información solicitada para crear tu nuevo producto.</p>
+        </div>
+
+        <div>
+
+          <div>
+            <h4 class="mb-3">Información del producto</h4>
+            <form action="{{ url_for('producto_bp.create_product') }}" class="needs-validation" method="POST" novalidate>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="nombre" class="form-label">Nombre de producto</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text">
+                      &#11088;
+                    </span>
+                    <input type="text" class="form-control" name="nombre" id="nombre" required>
+                    <div class="invalid-feedback">
+                      El nombre de producto es requerido.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="descripcion" class="form-label">Descripción de producto</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text">
+                      &#128195;
+                    </span>
+                    <input type="text" class="form-control" name="descripcion" id="descripcion" required>
+                    <div class="invalid-feedback">
+                      La descripción del producto es requerida.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="imagen" class="form-label">Fotografía del producto</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text">
+                      &#127750;
+                    </span>
+                    <input type="file" class="form-control" name="imagen" id="imagen" required>
+                    <div class="invalid-feedback">
+                      La fotografía del producto es requerida.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="precio" class="form-label">Precio del producto</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text">
+                      &#128176;
+                    </span>
+                    <input type="number" class="form-control" name="precio" id="precio" required>
+                    <div class="invalid-feedback">
+                      El precio del producto es requerido.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="palabras_clave" class="form-label">Palabras relacionadas</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text">
+                      &#128065;
+                    </span>
+                    <input type= "text" class="form-control" name="palabras_clave" id="palabras_clave" required>
+                    <div class="invalid-feedback">
+                      Las palabras relacionadas son requeridas.
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <hr class="my-4">
+
+              <button class="w-100 btn btn-primary btn-lg" type="submit">Crear producto</button>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017–2021 Company Name</p>
+        <ul class="list-inline">
+          <li class="list-inline-item"><a href="#">Privacy</a></li>
+          <li class="list-inline-item"><a href="#">Terms</a></li>
+          <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+      </footer>
+    </div>
+
+    <script src="bootstrap.bundle.min.js"></script>
+
+    <script src="form-validation.js"></script>
+  </body>
+  </html>
