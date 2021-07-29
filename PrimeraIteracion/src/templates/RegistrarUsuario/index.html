@@ -25,7 +25,14 @@
                     {{render_field(form.usuario, class="form-control")}}
                     {{render_field(form.correo, class="form-control")}}
                     {{render_field(form.telefono, class="form-control")}}
-                    <button type="submit" class="btn btn-secondary">Enviar</button>
+                    <button type="submit" class="m-2 btn btn-secondary">Enviar</button>
+                    <div class="row m-2">
+                        {% for message in get_flashed_messages() %}
+                            <div>
+                                <li class="aviso-container">{{ message }}</li>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </form>
                 {% endblock %}
             </div>

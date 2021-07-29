@@ -69,7 +69,19 @@ def registrar():
 
   correo = comment_form.correo.data
 
+  checando_usuario = modelo.usuario.Usuario.query.filter_by(usuario = comment_form.usuario.data).first()
+
+  checando_correo = modelo.usuario.Usuario.query.filter_by(correo = comment_form.correo.data).first()
+
   if request.method == 'POST' and comment_form.validate():
+
+    if checando_usuario is not None:
+      flash("El nombre de usuario ya está en uso.")
+      return render_template('/RegistrarUsuario/index.html', form = comment_form)
+    
+    if checando_correo is not None:
+      flash("El correo ya está en uso.")
+      return render_template('/RegistrarUsuario/index.html', form = comment_form)
 
     try:
       usuario_nuevo = modelo.usuario.Usuario( usuario = comment_form.usuario.data,
