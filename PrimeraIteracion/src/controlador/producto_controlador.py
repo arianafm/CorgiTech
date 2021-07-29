@@ -1,6 +1,7 @@
 import sys
 from flask import render_template, redirect, url_for, request, abort, jsonify
 from modelo.producto import Producto, db, ma
+import json
 
 class ProductoEsquema(ma.Schema):
   class Meta:
@@ -17,21 +18,24 @@ def actualizar():
   return 0
 
 def agregar():
-    nombre = request.json['nombre']
-    descripcion = request.json['descripcion']
-    imagen = request.json['imagen']
-    precio = request.json['precio']
-    palabras_clave = request.json['palabras_clave']
-    #cantidad_vendidos = request.json['cantidad_vendidos']
-    #id = request.json['id']
+    return render_template('crear_producto.html')
 
-    producto_nuevo = Producto(nombre, descripcion, imagen, 
+def create_product():
+  nombre = request.form['nombre']
+  descripcion = request.form['descripcion']
+  imagen = request.form['imagen']
+  precio = request.form['precio']
+  palabras_clave = request.form['palabras_clave']
+  #cantidad_vendidos = request.json['cantidad_vendidos']
+  #id = request.json['id']
+
+  producto_nuevo = Producto(nombre, descripcion, imagen, 
                               precio, palabras_clave)
 
-    db.session.add(producto_nuevo)
-    db.session.commit()
+  db.session.add(producto_nuevo)
+  db.session.commit()
 
-    return producto_esquema.jsonify(producto_nuevo)
+  return render_template('crear_producto.html')
 
 def comprar():
   """ Elimina un producto
