@@ -41,6 +41,10 @@ table {
   {% endfor %}
 </body>
 
+<center>
+  <a class="btn btn-outline-primary" href="crear" >Crear nuevo producto</a>
+</center>
+
 <div class="container mt-5">
     <table class="table">
         <thead>
@@ -116,7 +120,7 @@ table {
                   </div>
                   <div class="form-group">
                     <label for="imagen" class="col-form-label">Imágen</label>
-                    <input class="form-control" name="imagen"/>
+                    <input type="file" class="form-control" name="imagen"/>
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
