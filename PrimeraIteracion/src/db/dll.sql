@@ -14,7 +14,7 @@ CREATE TABLE usuario (
   usuario VARCHAR(20) NOT NULL,
   correo VARCHAR(50) NOT NULL,
   telefono CHAR(10) NOT NULL,
-  contrasena VARCHAR(10) NOT NULL,
+  contrasena VARCHAR(250) NOT NULL,
   CONSTRAINT PK_usuarioUsuario PRIMARY KEY (usuario),
   CONSTRAINT unique_usuario UNIQUE (usuario),
   CONSTRAINT unique_correo UNIQUE (correo)
