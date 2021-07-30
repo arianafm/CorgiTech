@@ -18,7 +18,7 @@ app.register_blueprint(usuario_bp, url_prefix='/usuario')
 @app.route('/', methods=['GET'])
 def index():
     # return render_template('index.html')
-    return jsonify ({'msg': 'Página principal :D'})
+    return jsonify ({'msg': 'Pagina principal :D'})
 
 
 if __name__ == '__main__':
