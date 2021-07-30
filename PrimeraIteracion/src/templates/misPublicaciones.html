@@ -18,34 +18,28 @@ table {
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="/producto">Mis Publicaciones</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <a class="nav-link active" aria-current="page" href="/">Lo más vendido</a>
         </li>
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="form-control me-2" type="search" placeholder="Buscar producto" aria-label="Buscar producto">
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
       </form>
     </div>
   </div>
 </nav>
 </div>  
+
+<body>
+  {% for message in get_flashed_messages() %}
+    <div class="alert alert-success">
+      <p style="text-align:center">{{ message }}</p>
+    </div>
+  {% endfor %}
+</body>
 
 <div class="container mt-5">
     <table class="table">
@@ -54,6 +48,7 @@ table {
             <th>Nombre</th>
             <th>Precio</th>
             <th>Descripción</th>
+            <th>Palabras Clave</th>
             <th></th>
             <th></th>
         </thead>
@@ -64,14 +59,15 @@ table {
               <td>{{producto.nombre}}</td>
               <td>${{producto.precio}}</td>
               <td>{{producto.descripcion}}</td>
-              <td><button type="button" class="btn btn-outline-primary">
+              <td>{{producto.palabras_clave}}</td>
+              <td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#Actualizar-{{producto.id}}">
                 Actualizar
               </button></td>
-              <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#Modal-{{producto.id}}">
+              <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#Confirmar-{{producto.id}}">
                 Eliminar</button></td>
             </tr>
-<!--============= MODEL ===================-->
-            <div class="modal fade" id="Modal-{{producto.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!--=============  MODAL ===================-->
+            <div class="modal fade" id="Confirmar-{{producto.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -90,7 +86,48 @@ table {
               </div>
             </div>
           </div>
-<!--==============MODEL ===================-->
+
+          <div class="modal fade" id="Actualizar-{{producto.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form method="POST">
+                  <div class="form-group">
+                    <label for="nombre" class="col-form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="{{producto.nombre}}"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="descripcion" class="col-form-label">Descripción</label>
+                    <textarea type="text" class="form-control" name="descripcion" placeholder="{{producto.descripcion}}"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="precio" class="col-form-label">Precio</label>
+                    <input type="number" class="form-control" name="precio" placeholder="{{producto.precio}}"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="palabras_clave" class="col-form-label">Palabras Clave</label>
+                    <input class="form-control" name="palabras_clave" placeholder="{{producto.palabras_clave}}"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="imagen" class="col-form-label">Imágen</label>
+                    <input class="form-control" name="imagen"/>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <button class="btn btn-primary" type="submit" name="actualizar" value={{producto.id}}> <span class="glyphicon glyphicon-trash"></span>Actualizar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+<!--============== MODAL ===================-->
             {% endfor %}
         </tbody>
     </table>

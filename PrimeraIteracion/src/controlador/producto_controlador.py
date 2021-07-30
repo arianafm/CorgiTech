@@ -1,6 +1,6 @@
 import sys
 import os
-from flask import render_template, redirect, url_for, request, abort, jsonify
+from flask import render_template, redirect, url_for, request, abort, jsonify, flash
 from modelo.producto import Producto, db, ma
 import json
 
@@ -11,33 +11,6 @@ class ProductoEsquema(ma.Schema):
 
 producto_esquema = ProductoEsquema()
 productos_esquema = ProductoEsquema(many=True)
-
-def actualizar():
-  """Actualiza un producto."""
-  id = request.json['id']
-  nombre = request.json['nombre']
-  descripcion = request.json['descripcion']
-  imagen = request.json['imagen']
-  precio = request.json['precio']
-  palabras_clave = request.json['palabras_clave']
-
-  producto = Producto.query.get(id)
-
-  if nombre != None:
-    producto.nombre = nombre
-  if descripcion != None:
-    producto.descripcion = descripcion
-  if imagen != None:
-    producto.imagen = imagen
-  if precio != None:
-    producto.precio = 100
-  if palabras_clave != None:
-    producto.palabras_clave = palabras_clave
-
-  db.session.merge(producto)
-  db.session.commit()
-
-  return "Se actualizó con éxito"
 
 def crear():
   """Crea un producto."""
@@ -75,6 +48,33 @@ def index():
   
     db.session.delete(producto)
     db.session.commit()
+
+    return redirect('/producto')
+
+  if 'actualizar' in request.form:
+    id = request.form.get('actualizar')
+    producto = Producto.query.get(id)
+  
+    nombre = request.form.get('nombre')
+    descripcion = request.form.get('descripcion')
+    imagen = request.form.get('imagen')
+    precio = request.form.get('precio')
+    palabras_clave = request.form.get('palabras_clave')
+
+    if nombre != '':
+      producto.nombre = nombre
+    if descripcion != '':
+      producto.descripcion = descripcion
+    if imagen != '':
+      producto.imagen = imagen
+    if precio != '':
+      producto.precio = precio
+    if palabras_clave != '':
+      producto.palabras_clave = palabras_clave
+
+    db.session.merge(producto)
+    db.session.commit()
+    flash('Se ha actualizado con éxito')
 
     return redirect('/producto')
 
