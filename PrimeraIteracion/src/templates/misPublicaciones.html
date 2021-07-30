@@ -84,8 +84,8 @@ table {
                   ¿Estás seguro de eliminar {{producto.nombre}}?
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                  <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="eliminar" value={{producto.id}}><span class="glyphicon glyphicon-trash"></span>Confirmar</button> </form>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                  <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="eliminar" value={{producto.id}}><span class="glyphicon glyphicon-trash"></span>Sí</button> </form>
                 </div>
               </div>
             </div>
@@ -120,7 +120,7 @@ table {
                   </div>
                   <div class="form-group">
                     <label for="imagen" class="col-form-label">Imágen</label>
-                    <input type="file" class="form-control" name="imagen"/>
+                    <input type="text" class="form-control" name="imagen"/>
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
