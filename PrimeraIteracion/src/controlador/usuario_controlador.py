@@ -149,19 +149,23 @@ def login():
 
     if(login_form.contrasena.data == str(fernet.decrypt(usuario_login.contrasena.encode()).decode())):
       #Aquí iría el session
-      return "Bienvenido"
+      session['usuario'] = nombre_de_usuario
+      return redirect(url_for('usuario_bp.inicio'))
     else:
       flash("Contraseña incorrecta, inténtelo de nuevo.")
       return render_template('/IniciarSesion/index.html', form = login_form)
 
   return render_template('/IniciarSesion/index.html', form = login_form)
 
-def logout():
-  return 0
+def inicio():
+  if request.method == 'POST':
+    logout()
+    #Aquí lo mejor sería mandarlo a la página de inicio.
+    return redirect(url_for('usuario_bp.login'))
+  return render_template('/InicioUsuario/index.html', name=session["usuario"])
 
-def index():
-  """ Elimina un producto
-      
-  """
-  return jsonify ({'msg': 'Esta es la página de publicaciones'})
+  
+def logout():
+  session.pop('usuario')
+
 
