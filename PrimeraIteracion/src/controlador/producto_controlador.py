@@ -1,6 +1,8 @@
 import sys
-from flask import render_template, redirect, url_for, request, abort, jsonify
+import os
+from flask import render_template, redirect, url_for, request, abort, jsonify, flash
 from modelo.producto import Producto, db, ma
+import json
 
 class ProductoEsquema(ma.Schema):
   class Meta:
@@ -10,49 +12,71 @@ class ProductoEsquema(ma.Schema):
 producto_esquema = ProductoEsquema()
 productos_esquema = ProductoEsquema(many=True)
 
-def actualizar():
-  """ Actualiza un producto
-      
-  """
-  return 0
+def crear():
+  """Crea un producto."""
+  return render_template('crear_producto.html')
 
-def agregar():
-    nombre = request.json['nombre']
-    descripcion = request.json['descripcion']
-    imagen = request.json['imagen']
-    precio = request.json['precio']
-    palabras_clave = request.json['palabras_clave']
-    #cantidad_vendidos = request.json['cantidad_vendidos']
-    #id = request.json['id']
+def create_product():
+  nombre = request.form['nombre']
+  descripcion = request.form['descripcion']
+  imagen = request.form['imagen']
+  precio = request.form['precio']
+  palabras_clave = request.form['palabras_clave']
 
-    producto_nuevo = Producto(nombre, descripcion, imagen, 
+  producto_nuevo = Producto(nombre, descripcion, imagen,
                               precio, palabras_clave)
 
-    db.session.add(producto_nuevo)
-    db.session.commit()
+  db.session.add(producto_nuevo)
+  db.session.commit()
 
-    return producto_esquema.jsonify(producto_nuevo)
+  return render_template('crear_producto.html')
 
 def comprar():
-  """ Elimina un producto
-      
-  """
+  """Compra un producto."""
   return 0
 
 def consultar():
-  """ Elimina un producto
-      
-  """
-  return 0
-
-def eliminar():
-  """ Elimina un producto
-      
-  """
+  """Consulta un producto."""
   return 0
 
 def index():
-  """ Elimina un producto
-      
-  """
-  return jsonify ({'msg': 'Esta es la página de publicaciones'})
+  """Página principal de Mis Publicaciones."""
+
+  if 'eliminar' in request.form:
+    id = request.form.get('eliminar')
+    producto = Producto.query.get(id)
+  
+    db.session.delete(producto)
+    db.session.commit()
+    flash('Se ha eliminado el producto con éxito')
+
+    return redirect('/producto')
+
+  if 'actualizar' in request.form:
+    id = request.form.get('actualizar')
+    producto = Producto.query.get(id)
+  
+    nombre = request.form.get('nombre')
+    descripcion = request.form.get('descripcion')
+    imagen = request.form.get('imagen')
+    precio = request.form.get('precio')
+    palabras_clave = request.form.get('palabras_clave')
+
+    if nombre != '':
+      producto.nombre = nombre
+    if descripcion != '':
+      producto.descripcion = descripcion
+    if imagen != '':
+      producto.imagen = imagen
+    if precio != '':
+      producto.precio = precio
+    if palabras_clave != '':
+      producto.palabras_clave = palabras_clave
+
+    db.session.merge(producto)
+    db.session.commit()
+    flash('Se ha actualizado el producto con éxito')
+
+    return redirect('/producto')
+
+  return render_template('misPublicaciones.html', title='Mis Publicaciones', productos=Producto.query.all())

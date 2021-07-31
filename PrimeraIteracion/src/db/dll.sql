@@ -26,8 +26,8 @@ CREATE TABLE usuario (
 CREATE TABLE producto (
   id INT UNSIGNED AUTO_INCREMENT NOT NULL,
   nombre VARCHAR(25) NOT NULL,
-  descripcion VARCHAR(100) NOT NULL,
-  imagen VARCHAR(250) NOT NULL,
+  descripcion VARCHAR(5000) NOT NULL,
+  imagen VARCHAR(2000) NOT NULL,
   precio INT UNSIGNED NOT NULL,
   palabras_clave VARCHAR(250) NOT NULL,
   cantidad_vendidos INT NOT NULL,
