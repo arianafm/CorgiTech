@@ -13,26 +13,30 @@
                 <img src="../../static/logo.png" alt="" width="150" height="150">
                 <br>
             </div>
-            <div class="row">
-                <h3 class = "reg">¡Bienvenido!</h3>
+            <div class="row p-2">
+                <h3 class = "reg"> <b>¡Bienvenido! </b></h3>
                 <br>
             </div>
-            <div class="row">
+            <div class="row p-3">
                 {% block content %}
                 {% from "IniciarSesion/_macro.html" import render_field %}
                 <form method="POST">
                     {{render_field(form.usuario, class="form-control")}}
+                    <span class="brmedium"></span> 
                     {{render_field(form.contrasena, class="form-control")}}
-                    <button type="submit" name="enviar" class="m-2 btn btn-secondary">Enviar</button>
-                    <div class="row m-2">
+                    <div class="p-3">
+                        <button type="submit" name="enviar" class="m-2 btn btn-secondary">Enviar</button>
+                    </div>
+                    <div class="row p-2">
                         {% for message in get_flashed_messages() %}
                             <div>
                                 <li class="aviso-container" type = "password">{{ message }}</li>
                             </div>
                         {% endfor %}
+                        <span class="brmedium"></span> 
+                        <hr>
                     </div>
-                    <hr>
-                    <div class="aviso-container p-2">
+                    <div class="aviso-container-2 p-1">
                         ¿Aún no tienes cuenta? 
                     </div>
                     <div>

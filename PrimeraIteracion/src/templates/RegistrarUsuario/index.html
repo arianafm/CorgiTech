@@ -14,18 +14,22 @@
                 <img src="../../static/logo.png" alt="" width="150" height="150">
                 <br>
             </div>
-            <div class="row">
-                <h3 class = "reg">¡Regístrate!</h3>
+            <div class="row p-2">
+                <h3 class = "large"> <b>¡Regístrate!</b></h3>
                 <br>
             </div>
-            <div class="row">
+            <div class="row p-3">
                 {% block content %}
                 {% from "RegistrarUsuario/_macro.html" import render_field %}
                 <form method="POST">
-                    {{render_field(form.usuario, class="form-control")}}
-                    {{render_field(form.correo, class="form-control")}}
-                    {{render_field(form.telefono, class="form-control")}}
-                    <button type="submit" class="m-2 btn btn-secondary">Enviar</button>
+                    {{render_field(form.usuario, class="form-control p-1")}}
+                    <span class="brmedium"></span> 
+                    {{render_field(form.correo, class="form-control p-1")}}
+                    <span class="brmedium"></span> 
+                    {{render_field(form.telefono, class="form-control p-1")}}
+                    <div class="p-3">
+                        <button type="submit" class="m-2 btn btn-secondary">Enviar</button>
+                    </div>
                     <div class="row m-2">
                         {% for message in get_flashed_messages() %}
                             <div>

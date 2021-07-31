@@ -11,7 +11,7 @@ body {
 
 .page_wrap
 {
-    padding-top: 70px;
+    padding-top: 30px;
     width: 250px;
     height: 100px;
     margin-left: auto;
@@ -20,4 +20,14 @@ body {
 
 .aviso-container {
 	font-size: small;
+    color: red;
+}
+
+.aviso-container-2 {
+	font-size: small;
+}
+
+.brmedium {
+    display: block;
+    margin-bottom: 1em;
 }
