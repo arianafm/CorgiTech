@@ -48,6 +48,7 @@ def index():
   
     db.session.delete(producto)
     db.session.commit()
+    flash('Se ha eliminado el producto con éxito')
 
     return redirect('/producto')
 
@@ -74,7 +75,7 @@ def index():
 
     db.session.merge(producto)
     db.session.commit()
-    flash('Se ha actualizado con éxito')
+    flash('Se ha actualizado el producto con éxito')
 
     return redirect('/producto')
 
