@@ -83,4 +83,9 @@ def index():
 
     return redirect('/producto')
 
-  return render_template('misPublicaciones.html', title='Mis Publicaciones', productos=Producto.query.all(), name=session["usuario"])
+  productos_id = list(map(lambda x: x.id_producto,
+                      Crear.query.filter_by(usuario=session['usuario']).all()))
+  productos = [Producto.query.filter_by(id=id).first() for id in productos_id]
+
+  return render_template('misPublicaciones.html', title='Mis Publicaciones', 
+                          productos=productos, name=session['usuario'])
