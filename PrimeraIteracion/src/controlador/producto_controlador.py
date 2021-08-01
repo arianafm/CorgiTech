@@ -1,6 +1,6 @@
 import sys
 import os
-from flask import render_template, redirect, url_for, request, abort, jsonify, flash
+from flask import render_template, redirect, url_for, request, abort, jsonify, flash, session
 from modelo.producto import Producto, db, ma
 import json
 
@@ -79,4 +79,4 @@ def index():
 
     return redirect('/producto')
 
-  return render_template('misPublicaciones.html', title='Mis Publicaciones', productos=Producto.query.all())
+  return render_template('misPublicaciones.html', title='Mis Publicaciones', productos=Producto.query.all(), name=session["usuario"])
