@@ -1,6 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from modelo._db import db
 
 class Crear(db.Model):
   __tablename__ = 'crear'

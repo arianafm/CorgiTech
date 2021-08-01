@@ -1,10 +1,4 @@
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
-
-app = Flask(__name__)
-ma = Marshmallow(app)
-db = SQLAlchemy()
+from modelo._db import db
 
 class Producto(db.Model):
   __tablename__ = 'producto'

@@ -1,10 +1,4 @@
-from enum import unique
-import controlador.usuario_controlador
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-
-
-db = SQLAlchemy()
+from modelo._db import db
 
 class Usuario(db.Model):
   __tablename__ = 'usuario'

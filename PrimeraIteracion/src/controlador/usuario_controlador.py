@@ -14,11 +14,11 @@ from flask_marshmallow import Marshmallow
 from cryptography.fernet import Fernet
 from flask_mail import Mail, Message
 
+from modelo._db import db
+
 template_dir = os.path.abspath('../../templates')
 
 app = Flask(__name__)
-db = SQLAlchemy()
-ma = Marshmallow(app)
 
 # Inicializar la clase Fernet con la llave que generamos.
 fernet = Fernet(b'tJg6ll_KljmoKvledZzcDBFskn7w3OmMokimkGBnFP0=')
@@ -37,13 +37,6 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 mail= Mail(app)
-
-class UsuarioEsquema(ma.Schema):
-  class Meta:
-    fields = ['usuario', 'correo', 'telefono','contrasena']
-
-usuario_esquema = UsuarioEsquema()
-usuarios_esquema = UsuarioEsquema(many=True)
 
 def generar_contrasena():
   """ 

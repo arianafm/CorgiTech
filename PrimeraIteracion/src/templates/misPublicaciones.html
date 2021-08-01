@@ -1,14 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<script type="text/javascript">
-$(document).ready(function() {
-setTimeout(function() {
-    $('.alert').fadeOut('slow');
-}, 2000); // <-- time in milliseconds
-</script>
-
-<div class="container">
+<body><div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Mercatodo</a>
@@ -31,7 +24,7 @@ setTimeout(function() {
     </div>
   </div>
 </nav>
-</div>  
+</div>  </body>
 
   {% for message in get_flashed_messages() %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">

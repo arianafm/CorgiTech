@@ -1,39 +1,29 @@
-import sys
-import os
-from flask import render_template, redirect, url_for, request, abort, jsonify, flash, session
-from modelo.producto import Producto, db, ma
+from modelo._db import db
+from flask import render_template, redirect, url_for, request, flash, session
+from modelo.producto import Producto
 from modelo.crear import Crear
-import json
-
-class ProductoEsquema(ma.Schema):
-  class Meta:
-    fields = ['id', 'nombre', 'descripcion','imagen', 
-              'precio', 'palabras_clave', 'cantidad_vendidos']
-
-producto_esquema = ProductoEsquema()
-productos_esquema = ProductoEsquema(many=True)
 
 def crear():
-  """Crea un producto."""
-  return render_template('crear_producto.html')
+  if request.method == 'GET':
+    return render_template('crear_producto.html')
 
-def create_product():
-  nombre = request.form['nombre']
-  descripcion = request.form['descripcion']
-  imagen = request.form['imagen']
-  precio = request.form['precio']
-  palabras_clave = request.form['palabras_clave']
+  if request.method == 'POST':
+    nombre = request.form['nombre']
+    descripcion = request.form['descripcion']
+    imagen = request.form['imagen']
+    precio = request.form['precio']
+    palabras_clave = request.form['palabras_clave']
 
-  producto_nuevo = Producto(nombre, descripcion, imagen,
-                              precio, palabras_clave)
+    producto_nuevo = Producto(nombre, descripcion, imagen,
+                                precio, palabras_clave)
 
-  db.session.add(producto_nuevo)
-  db.session.commit()
-  db.session.add(Crear(session['usuario'], producto_nuevo.id))
-  db.session.commit()
+    db.session.add(producto_nuevo)
+    db.session.commit()
+    db.session.add(Crear(session['usuario'], producto_nuevo.id))
+    db.session.commit()
 
-  flash('Se ha creado el producto con éxito')
-  return redirect('/producto')
+    flash('Se ha creado el producto con éxito')
+    return redirect('/producto')
 
 def comprar():
   """Compra un producto."""
@@ -86,6 +76,8 @@ def index():
   productos_id = list(map(lambda x: x.id_producto,
                       Crear.query.filter_by(usuario=session['usuario']).all()))
   productos = [Producto.query.filter_by(id=id).first() for id in productos_id]
+
+  print(productos)
 
   return render_template('misPublicaciones.html', title='Mis Publicaciones', 
                           productos=productos, name=session['usuario'])
