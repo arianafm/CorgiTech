@@ -2,6 +2,7 @@ import sys
 import os
 from flask import render_template, redirect, url_for, request, abort, jsonify, flash, session
 from modelo.producto import Producto, db, ma
+from modelo.crear import Crear
 import json
 
 class ProductoEsquema(ma.Schema):
@@ -28,8 +29,11 @@ def create_product():
 
   db.session.add(producto_nuevo)
   db.session.commit()
+  db.session.add(Crear(session['usuario'], producto_nuevo.id))
+  db.session.commit()
 
-  return render_template('crear_producto.html')
+  flash('Se ha creado el producto con éxito')
+  return redirect('/producto')
 
 def comprar():
   """Compra un producto."""
