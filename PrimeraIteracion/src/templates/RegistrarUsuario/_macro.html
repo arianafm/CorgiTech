@@ -1,0 +1,13 @@
+<link href="../../static/RegistrarUsuario/registrar_usuario.css"  rel="stylesheet">
+{% macro render_field(field) %}
+    <td> {{ field.label }} </td>
+    <dd> {{ field(**kwargs)|safe}} </dd>
+
+    {% if field.errors %}
+        <div>
+            {% for error in field.errors %}
+            <li class="aviso-container"> {{ error }} </li>
+            {% endfor%}
+        </div>
+    {% endif %}
+{% endmacro %}
