@@ -65,7 +65,7 @@ def consultar():
 
 def single_page(id):
   product = Producto.query.get_or_404(id)
-  return render_template('single_page.html', product=product)
+  return render_template('single_page.html', product=product, name=session["usuario"])
 
 def checkout(id):
   product = Producto.query.get_or_404(id)
@@ -80,11 +80,11 @@ def checkout(id):
   qr.make(fit=True)
   img = qr.make_image(fill='black', black_color='white')
   img.save('src/controlador/qrcode.png')
-  return render_template('checkout.html', product=product, correo=correo)
+  return render_template('checkout.html', product=product, correo=correo, name=session["usuario"])
 
 def catalogo():
   """Página con el catálogo de productos"""
-  return render_template('catalogo.html', productos=Producto.query.all())
+  return render_template('catalogo.html', productos=Producto.query.all(), name=session["usuario"])
 
 def index():
   """Página principal de Mis Publicaciones."""
