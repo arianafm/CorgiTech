@@ -1,4 +1,5 @@
 from modelo._db import db
+import controlador.usuario_controlador
 
 class Usuario(db.Model):
   __tablename__ = 'usuario'
