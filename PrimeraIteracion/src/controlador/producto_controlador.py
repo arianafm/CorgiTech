@@ -1,18 +1,22 @@
+from wtforms import form
 from modelo._db import db
 from flask import render_template, redirect, url_for, request, flash, session
 from modelo.producto import Producto
 from modelo.crear import Crear
 
-def crear():
-  if request.method == 'GET':
-    return render_template('crear_producto.html')
+from templates.CrearProducto.forms import ProductForm
 
-  if request.method == 'POST':
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    imagen = request.form['imagen']
-    precio = request.form['precio']
-    palabras_clave = request.form['palabras_clave']
+def crear():
+  product_form = ProductForm(request.form)
+  if request.method == 'GET':
+    return render_template('CrearProducto/crear_producto.html', form = product_form)
+  
+  if request.method == 'POST' and product_form.validate():
+    nombre = product_form.nombre.data
+    descripcion = product_form.descripcion.data
+    imagen = product_form.imagen.data
+    precio = product_form.precio.data
+    palabras_clave = product_form.palabras_clave.data
 
     producto_nuevo = Producto(nombre, descripcion, imagen,
                                 precio, palabras_clave)
@@ -79,5 +83,5 @@ def index():
 
   print(productos)
 
-  return render_template('misPublicaciones.html', title='Mis Publicaciones', 
+  return render_template('MisProductos/misPublicaciones.html', title='Mis Publicaciones', 
                           productos=productos, name=session['usuario'])
