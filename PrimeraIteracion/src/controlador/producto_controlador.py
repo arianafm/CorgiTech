@@ -7,6 +7,9 @@ from modelo.crear import Crear
 from templates.CrearProducto.forms import ProductForm
 
 def crear():
+  if 'usuario' not in session:
+    return redirect('/usuario/ingresar')
+    
   product_form = ProductForm(request.form)
   if request.method == 'GET':
     return render_template('CrearProducto/crear_producto.html', form = product_form)
@@ -39,6 +42,9 @@ def consultar():
 
 def index():
   """Página principal de Mis Publicaciones."""
+
+  if 'usuario' not in session:
+    return redirect('/usuario/ingresar')
 
   if 'eliminar' in request.form:
     id = request.form.get('eliminar')
