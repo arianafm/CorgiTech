@@ -64,6 +64,11 @@ def consultar():
   products = Producto.query.msearch(searchword, fields=['nombre','descripcion','palabras_clave'], limit=3)
   return render_template('consulta.html', products=products, name=session["usuario"])
 
+def masVendidos():
+  """Página con los productos más vendidos"""
+  consulta = Producto.query.order_by(Producto.cantidad_vendidos.desc())
+  return render_template('masVendidos.html', consulta=consulta, name=session["usuario"])
+
 def single_page(id):
   product = Producto.query.get_or_404(id)
   return render_template('single_page.html', product=product, name=session["usuario"])
