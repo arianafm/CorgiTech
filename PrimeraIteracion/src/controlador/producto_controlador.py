@@ -85,7 +85,7 @@ def checkout(id):
 
 def catalogo():
   """Página con el catálogo de productos"""
-  return render_template('catalogo.html', productos=Producto.query.all(), name=session["usuario"])
+  return render_template('catalogo.html', productos=Producto.query.all(), )
 
 def index():
   """Página principal de Mis Publicaciones."""
