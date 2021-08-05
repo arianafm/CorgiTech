@@ -1,6 +1,6 @@
 from modelo._db import db
 from flask import render_template, redirect, url_for, request, flash, session, Flask, abort
-from modelo.producto import Producto
+from modelo.producto import Producto, search
 from modelo.crear import Crear
 from modelo.usuario import Usuario
 from flask_mail import Mail, Message
@@ -60,8 +60,9 @@ def comprar(id):
   return render_template('comprar.html', correo=correo, name=session["usuario"])
 
 def consultar():
-  """Consulta un producto."""
-  return 0
+  searchword = request.args.get('q')
+  products = Producto.query.msearch(searchword, fields=['nombre','descripcion','palabras_clave'], limit=3)
+  return render_template('consulta.html', products=products, name=session["usuario"])
 
 def single_page(id):
   product = Producto.query.get_or_404(id)
