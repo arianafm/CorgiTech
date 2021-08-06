@@ -92,7 +92,7 @@ def checkout(id):
   qr.add_data(compra)
   qr.make(fit=True)
   img = qr.make_image(fill='black', black_color='white')
-  img.save('src/controlador/qrcode.png')
+  img.save('./qrcode.png')
   return render_template('checkout.html', product=product, correo=correo, name=session["usuario"])
 
 def catalogo():
@@ -102,8 +102,6 @@ def catalogo():
 
 def index():
   """Página principal de Mis Publicaciones."""
-
-
   if 'usuario' not in session:
     return redirect('/usuario/ingresar')
 

@@ -3,13 +3,12 @@ from flask.templating import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_msearch import Search 
-
+from controlador.usuario_controlador import inicio
 
 from rutas.producto_bp import producto_bp
 from rutas.usuario_bp import usuario_bp
 from modelo._db import db
 from modelo.producto import search
-
 
 app = Flask(__name__)
 
@@ -29,7 +28,7 @@ def page_not_found(e):
 @app.route('/', methods=['GET'])
 def index():
     # return render_template('index.html')
-    return jsonify ({'msg': 'Pagina principal :D'})
+    return inicio()
 
 
 if __name__ == '__main__':
