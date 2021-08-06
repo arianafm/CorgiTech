@@ -9,7 +9,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 DEBUG = True
 
 # Connect to the database
-SQLALCHEMY_DATABASE_URI = 'mysql://root:password@localhost/mercatodo'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:password$@localhost/mercatodo'
 
 
 # Turn off the Flask-SQLAlchemy event system and warning

@@ -1,30 +1,7 @@
-{% extends 'MisProductos/layout.html' %}
+{% extends 'Navbar.html' %}
 {% block content %}
 
-<body><div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Mercatodo</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/producto">Mis Publicaciones</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Lo más vendido</a>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Buscar producto" aria-label="Buscar producto">
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-      </form>
-    </div>
-  </div>
-</nav>
-</div>  </body>
+
 
   {% for message in get_flashed_messages() %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -36,7 +13,7 @@
   {% endfor %}
 
 <center>
-  <a class="btn btn-outline-primary" href="crear" >Crear nuevo producto</a>
+  <a class="btn btn-outline-dark" href="crear" >Crear nuevo producto</a>
 </center>
 
 <div class="container mt-5">

@@ -8,7 +8,7 @@ from wtforms.fields.html5 import EmailField
 from wtforms import validators
 
 class ProductForm(Form):
-    nombre = StringField('Nombre deproducto:',
+    nombre = StringField('Nombre de producto:',
             [
                 validators.Required(message = "El nombre de producto es requerido."),                
             ]

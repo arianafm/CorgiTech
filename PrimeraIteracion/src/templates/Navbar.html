@@ -33,16 +33,18 @@
                 
                     <form class="d-flex" action="{{url_for('producto_bp.consultar')}}">
                         <input class="form-control me-2" type="search" placeholder="Buscar producto" aria-label="Buscar producto" name="q">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                        <button class="btn btn-outline-light" type="submit">Buscar</button>
                     </form>
                 </div>
             </div>
         </nav>
-        
+        <br>
+        <br>
         {% block content %}
 
         {% endblock content %}
-
+        <br>
+        <br>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mercatodo 2021</p></div>
