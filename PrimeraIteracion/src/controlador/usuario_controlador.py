@@ -66,6 +66,7 @@ def registrar():
 
   checando_correo = modelo.usuario.Usuario.query.filter_by(correo = comment_form.correo.data).first()
 
+
   # Si el usuario está en una sesión y quiere acceder a iniciar sesión
   # lo redirigimos a la página de inicio-usuario
   if 'usuario' in session:

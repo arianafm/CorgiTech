@@ -18,7 +18,8 @@ CREATE TABLE usuario (
   CONSTRAINT PK_usuarioUsuario PRIMARY KEY (usuario),
   CONSTRAINT unique_usuario UNIQUE (usuario),
   CONSTRAINT unique_correo UNIQUE (correo)
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 /* 
 * Tabla para un producto
@@ -34,7 +35,8 @@ CREATE TABLE producto (
   CONSTRAINT PK_idProducto PRIMARY KEY (id),
   CONSTRAINT check_precio CHECK (precio >= 0),
   CONSTRAINT check_cantidadVendidos CHECK(cantidad_vendidos >= 0)
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 
 /*

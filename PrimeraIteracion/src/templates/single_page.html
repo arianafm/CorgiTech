@@ -1,0 +1,27 @@
+{% extends 'Navbar.html' %}
+{% block content %}
+        <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{product.imagen}}" alt="..." /></div>
+                    <div class="col-md-6">
+                        <h1 class="display-5 fw-bolder">{{product.nombre}}</h1>
+                        <div class="fs-5 mb-5">
+                            <!--<span class="text-decoration-line-through">$45.00</span>-->
+                            <span>${{product.precio}}</span>
+                        </div>
+                        <p class="lead">{{product.descripcion}}</p>
+                        <div class="d-flex">
+                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />                         
+                            <a href="{{url_for('producto_bp.checkout', id=product.id)}}">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                    Comprar
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endblock content %}

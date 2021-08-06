@@ -1,0 +1,134 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<body><div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Mercatodo</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/producto">Mis Publicaciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Lo más vendido</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Buscar producto" aria-label="Buscar producto">
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</nav>
+</div>  </body>
+
+  {% for message in get_flashed_messages() %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  {% endfor %}
+
+<center>
+  <a class="btn btn-outline-primary" href="crear" >Crear nuevo producto</a>
+</center>
+
+<div class="container mt-5">
+    <table class="table">
+        <thead>
+            <th></th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Palabras Clave</th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+              <td><img src={{producto.imagen}} width="100" height="100"></td>
+              <td>{{producto.nombre}}</td>
+              <td>${{producto.precio}}</td>
+              <td>{{producto.descripcion}}</td>
+              <td>{{producto.palabras_clave}}</td>
+              <td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#Actualizar-{{producto.id}}">
+                Actualizar
+              </button></td>
+              <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#Confirmar-{{producto.id}}">
+                Eliminar</button></td>
+            </tr>
+<!--=============  MODAL ===================-->
+            <div class="modal fade" id="Confirmar-{{producto.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">{{producto.nombre}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ¿Estás seguro de eliminar {{producto.nombre}}?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                  <form action="" method="POST" ><button class="btn btn-danger" type="submit" name="eliminar" value={{producto.id}}><span class="glyphicon glyphicon-trash"></span>Sí</button> </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="Actualizar-{{producto.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form method="POST">
+                  <div class="form-group">
+                    <label for="nombre" class="col-form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="{{producto.nombre}}"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="descripcion" class="col-form-label">Descripción</label>
+                    <textarea type="text" class="form-control" name="descripcion" placeholder="{{producto.descripcion}}"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="precio" class="col-form-label">Precio</label>
+                    <input type="number" class="form-control" name="precio" placeholder="{{producto.precio}}"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="palabras_clave" class="col-form-label">Palabras Clave</label>
+                    <input class="form-control" name="palabras_clave" placeholder="{{producto.palabras_clave}}"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="imagen" class="col-form-label">Imágen</label>
+                    <input type="text" class="form-control" name="imagen"/>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <button class="btn btn-primary" type="submit" name="actualizar" value={{producto.id}}> <span class="glyphicon glyphicon-trash"></span>Actualizar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+<!--============== MODAL ===================-->
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

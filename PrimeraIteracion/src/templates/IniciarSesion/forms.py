@@ -3,9 +3,6 @@ from flask_mail import Message
 from wtforms import Form
 from wtforms import StringField
 from wtforms.fields import PasswordField
-from wtforms.fields.html5 import EmailField
-
-
 from wtforms import validators
 
 class LoginForm(Form):
@@ -16,6 +13,7 @@ class LoginForm(Form):
                 
             ]
             )
+
     contrasena = PasswordField('Contraseña:',
             [
                 validators.Required(message = "La contraseña es requerida."),
