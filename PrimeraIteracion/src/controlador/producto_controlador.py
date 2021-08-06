@@ -92,7 +92,7 @@ def checkout(id):
   qr.add_data(compra)
   qr.make(fit=True)
   img = qr.make_image(fill='black', black_color='white')
-  img.save('./qrcode.png')
+  img.save('controlador/qrcode.png')
   return render_template('checkout.html', product=product, correo=correo, name=session["usuario"])
 
 def catalogo():
