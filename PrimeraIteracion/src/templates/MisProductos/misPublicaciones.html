@@ -12,6 +12,11 @@
 </div>
   {% endfor %}
 
+<link rel="stylesheet" href="../../static/CrearProducto/botones.css">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
 <center>
   <a class="btn btn-outline-dark" href="crear" >Crear nuevo producto</a>
 </center>
@@ -35,11 +40,23 @@
               <td>${{producto.precio}}</td>
               <td>{{producto.descripcion}}</td>
               <td>{{producto.palabras_clave}}</td>
-              <td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#Actualizar-{{producto.id}}">
-                Actualizar
+              <td><button type="button" class="btn btn-outline-primary editBoton" data-toggle="modal" data-target="#Actualizar-{{producto.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                  <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                </svg>
               </button></td>
-              <td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#Confirmar-{{producto.id}}">
-                Eliminar</button></td>
+              <td><button type="button" class="btn btn-outline-danger deleteBoton" data-toggle="modal" data-target="#Confirmar-{{producto.id}}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <line x1="4" y1="7" x2="20" y2="7" />
+                  <line x1="10" y1="11" x2="10" y2="17" />
+                  <line x1="14" y1="11" x2="14" y2="17" />
+                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                </svg>
+              </button></td>
             </tr>
 <!--=============  MODAL ===================-->
             <div class="modal fade" id="Confirmar-{{producto.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -90,7 +107,7 @@
                     <input class="form-control" name="palabras_clave" placeholder="{{producto.palabras_clave}}"/>
                   </div>
                   <div class="form-group">
-                    <label for="imagen" class="col-form-label">Imágen</label>
+                    <label for="imagen" class="col-form-label">Imagen</label>
                     <input type="text" class="form-control" name="imagen"/>
                   </div>
                   <div class="modal-footer">
