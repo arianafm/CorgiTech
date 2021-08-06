@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Crear Producto - Mercatodo</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/checkout/">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+  <link href="{{url_for('static', filename='../../static/CrearProducto/crear_producto.css')}}" rel="stylesheet" />
+
+  <body class="page_background">
+
+    <header class="p-3 text-white header">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+        <a href="">
+          <img src="{{url_for('static', filename='../../static/logo.png')}}" width="70">
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" class="nav-link px-2 text-white efecto">Mis publicaciones</a></li>
+          <li><a href="#" class="nav-link px-2 text-white efecto">Lo más vendido</a></li>
+        </ul>
+
+        <div class="col-3"></div>
+
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+          <input type="search" class="form-control form-control-dark" placeholder="Buscar producto" aria-label="Search">
+        </form>
+
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2">Entrar</button>
+          <button type="button" class="btn btn-outline-light">Registrarse</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+    <div class="container container_form">
+      <main>
+        <div class="py-5 text-center">
+          <p class="lead">Ingresa todos la la información solicitada para crear tu nuevo producto.</p>
+        </div>
+
+        <div>
+
+          <div>
+            <h4 class="mb-3">Información del producto</h4>
+            {% block content %}
+            {% from "CrearProducto/_macro.html" import render_field %}
+            <form method="POST">
+              {{render_field(form.nombre, class="form-control")}}
+              <span class="brmedium"></span>
+              {{render_field(form.descripcion, class="form-control")}}
+              <span class="brmedium"></span>
+              {{render_field(form.imagen, class="form-control")}}
+              <span class="brmedium"></span>
+              {{render_field(form.precio, class="form-control")}}
+              <span class="brmedium"></span>
+              {{render_field(form.palabras_clave, class="form-control")}}
+
+              <hr class="my-4">
+
+              <button class="w-100 btn btn-lg boton" type="submit">Crear producto</button>
+            </form>
+            {% endblock %}
+          </div>
+        </div>
+      </main>
+      
+    </div>
+
+    <script src="{{url_for('static', filename='js/form-validation.js')}}"></script>
+  </body>
+  </html>

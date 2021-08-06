@@ -1,0 +1,32 @@
+.page_background {
+	background-image: linear-gradient(to top, #B4D2E7 0%, #DDDFE4 40%);
+	font-size: 1.1em;
+}
+
+.header {
+	background-color: #000100;
+	outline-color: #B4D2E7;
+}
+
+.container_form {
+  max-width: 860px;
+}
+
+.boton {
+	background-color: #000100;
+	color: #DDDFE4;
+	margin-bottom: 2rem;
+}
+
+.boton:hover {
+	background-color: #DDDFE4;
+	border-color: #000100;
+}
+
+.btn-outline-light:hover {
+	background-color: #DDDFE4;
+}
+
+.efecto:hover {
+	font-weight: bold;
+}

@@ -4,10 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_msearch import Search 
 
+
 from rutas.producto_bp import producto_bp
 from rutas.usuario_bp import usuario_bp
 from modelo._db import db
 from modelo.producto import search
+
 
 app = Flask(__name__)
 

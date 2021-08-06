@@ -1,10 +1,12 @@
 from modelo._db import db
+from wtforms import form
 from flask import render_template, redirect, url_for, request, flash, session, Flask, abort
 from modelo.producto import Producto, search
 from modelo.crear import Crear
 from modelo.usuario import Usuario
 from flask_mail import Mail, Message
 import qrcode
+from templates.CrearProducto.forms import ProductForm
 from PIL import Image
 
 app = Flask(__name__)
@@ -20,15 +22,20 @@ app.config['MAIL_USE_SSL'] = True
 mail= Mail(app)
 
 def crear():
+  if 'usuario' not in session:
+    return redirect('/usuario/ingresar')
+    
+  product_form = ProductForm(request.form)
   if request.method == 'GET':
-    return render_template('crear_producto.html')
+    return render_template('CrearProducto/crear_producto.html', form = product_form)
+  
+  if request.method == 'POST' and product_form.validate():
+    nombre = product_form.nombre.data
+    descripcion = product_form.descripcion.data
+    imagen = product_form.imagen.data
+    precio = product_form.precio.data
+    palabras_clave = product_form.palabras_clave.data
 
-  if request.method == 'POST':
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    imagen = request.form['imagen']
-    precio = request.form['precio']
-    palabras_clave = request.form['palabras_clave']
 
     producto_nuevo = Producto(nombre, descripcion, imagen,
                                 precio, palabras_clave)
@@ -90,10 +97,15 @@ def checkout(id):
 
 def catalogo():
   """Página con el catálogo de productos"""
-  return render_template('catalogo.html', productos=Producto.query.all(), )
+  return render_template('catalogo.html', productos=Producto.query.all(), name=session["usuario"])
+
 
 def index():
   """Página principal de Mis Publicaciones."""
+
+
+  if 'usuario' not in session:
+    return redirect('/usuario/ingresar')
 
   if 'eliminar' in request.form:
     id = request.form.get('eliminar')
@@ -138,5 +150,6 @@ def index():
 
   print(productos)
 
-  return render_template('misPublicaciones.html', title='Mis Publicaciones', 
+
+  return render_template('MisProductos/misPublicaciones.html', title='Mis Publicaciones', 
                           productos=productos, name=session['usuario'])

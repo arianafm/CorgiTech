@@ -66,31 +66,39 @@ def registrar():
 
   checando_correo = modelo.usuario.Usuario.query.filter_by(correo = comment_form.correo.data).first()
 
-  if request.method == 'POST' and comment_form.validate():
 
-    if checando_usuario is not None:
-      flash("El nombre de usuario ya está en uso.")
-      return render_template('/RegistrarUsuario/index.html', form = comment_form)
-    
-    if checando_correo is not None:
-      flash("El correo ya está en uso.")
-      return render_template('/RegistrarUsuario/index.html', form = comment_form)
-
-    try:
-      usuario_nuevo = modelo.usuario.Usuario( usuario = comment_form.usuario.data,
-                                              correo = comment_form.correo.data,
-                                              telefono = comment_form.telefono.data
-                                            )
-      db.session.add(usuario_nuevo)
-      db.session.commit()
-    except:
-      db.session.rollback()
-      raise abort(500, 'Ocurrió un error al añadir el registro del usuario a la base de datos.')
-    
-    return redirect(url_for('usuario_bp.correo_confirmacion'))
-    
+  # Si el usuario está en una sesión y quiere acceder a iniciar sesión
+  # lo redirigimos a la página de inicio-usuario
+  if 'usuario' in session:
+    return redirect(url_for('usuario_bp.inicio'))
+  #Si el usuario no está en una sesión y quiere acceder a iniciar sesión...
   else:
-    return render_template('/RegistrarUsuario/index.html', form = comment_form)
+
+    if request.method == 'POST' and comment_form.validate():
+
+      if checando_usuario is not None:
+        flash("El nombre de usuario ya está en uso.")
+        return render_template('/RegistrarUsuario/index.html', form = comment_form)
+      
+      if checando_correo is not None:
+        flash("El correo ya está en uso.")
+        return render_template('/RegistrarUsuario/index.html', form = comment_form)
+
+      try:
+        usuario_nuevo = modelo.usuario.Usuario( usuario = comment_form.usuario.data,
+                                                correo = comment_form.correo.data,
+                                                telefono = comment_form.telefono.data
+                                              )
+        db.session.add(usuario_nuevo)
+        db.session.commit()
+      except:
+        db.session.rollback()
+        raise abort(500, 'Ocurrió un error al añadir el registro del usuario a la base de datos.')
+      
+      return redirect(url_for('usuario_bp.correo_confirmacion'))
+      
+    else:
+      return render_template('/RegistrarUsuario/index.html', form = comment_form)
 
 
 def correo_confirmacion():
@@ -130,32 +138,42 @@ def login():
 
   login_form = LoginForm(request.form)
 
-  if request.method == 'POST' and login_form.validate():
-    # Nos devuelve un usuario (objeto) dado el usuario de la petición. 
-    usuario_login = modelo.usuario.Usuario.query.filter_by(usuario = login_form.usuario.data).first()
+  # Si el usuario está en una sesión y quiere acceder a iniciar sesión
+  # lo redirigimos a la página de inicio-usuario
+  if 'usuario' in session:
+    return redirect(url_for('usuario_bp.inicio'))
+  #Si el usuario no está en una sesión y quiere acceder a iniciar sesión...
+  else:
 
-    if(usuario_login is None):
-      flash("El nombre de usuario no está asociado a ningún registro.")
-      return render_template('/IniciarSesion/index.html', form = login_form)
-    
-    nombre_de_usuario = login_form.usuario.data
+    if request.method == 'POST' and login_form.validate():
+      # Nos devuelve un usuario (objeto) dado el usuario de la petición. 
+      usuario_login = modelo.usuario.Usuario.query.filter_by(usuario = login_form.usuario.data).first()
 
-    if(login_form.contrasena.data == str(fernet.decrypt(usuario_login.contrasena.encode()).decode())):
-      #Aquí iría el session
-      session['usuario'] = nombre_de_usuario
-      return redirect(url_for('usuario_bp.inicio'))
-    else:
-      flash("Contraseña incorrecta, inténtelo de nuevo.")
-      return render_template('/IniciarSesion/index.html', form = login_form)
+      if(usuario_login is None):
+        flash("El nombre de usuario no está asociado a ningún registro.")
+        return render_template('/IniciarSesion/index.html', form = login_form)
+      
+      nombre_de_usuario = login_form.usuario.data
 
-  return render_template('/IniciarSesion/index.html', form = login_form)
+      if(login_form.contrasena.data == str(fernet.decrypt(usuario_login.contrasena.encode()).decode())):
+        session['usuario'] = nombre_de_usuario
+        return redirect(url_for('usuario_bp.inicio'))
+      else:
+        flash("Contraseña incorrecta, inténtelo de nuevo.")
+        return render_template('/IniciarSesion/index.html', form = login_form)
+
+    return render_template('/IniciarSesion/index.html', form = login_form)
 
 def inicio():
-  if request.method == 'POST':
-    logout()
-    #Aquí lo mejor sería mandarlo a la página de inicio.
-    return redirect(url_for('usuario_bp.login'))
-  return render_template('/InicioUsuario/index.html', name=session["usuario"])
+  #Si el usuario no está en sesión lo redirigimos a la página de inicio de sesión.
+  if 'usuario' not in session:
+    return redirect('/usuario/ingresar')
+  #Si el usuario está en sesión se le muestra la página de inicio-usuario.
+  else:  
+    if request.method == 'POST':
+      logout()
+      return redirect(url_for('usuario_bp.login'))
+    return render_template('/InicioUsuario/index.html', name=session["usuario"])
 
   
 def logout():
