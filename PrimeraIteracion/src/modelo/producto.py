@@ -5,6 +5,10 @@ from flask_msearch import Search
 search = Search(db=db)
 
 class Producto(db.Model):
+  """Clase para los productos.
+
+  Automáticamente se le asigna un id de acuerdo a la base de datos.
+  """
   __tablename__ = 'producto'
 
   nombre = db.Column(db.Unicode)
@@ -17,10 +21,7 @@ class Producto(db.Model):
 
   def __init__(self, nombre, descripcion, imagen, 
                precio, palabras_clave):
-    """Crea un nuevo producto
-
-    Comentar parametros
-    """
+    """Crea un nuevo producto."""
     self.nombre = nombre
     self.descripcion = descripcion
     self.imagen = imagen

@@ -1,6 +1,7 @@
 from modelo._db import db
 
 class Crear(db.Model):
+  """Clase para la relación usuario compra producto."""
   __tablename__ = 'crear'
 
   usuario = db.Column(db.Unicode, primary_key=True)

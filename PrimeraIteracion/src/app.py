@@ -11,10 +11,11 @@ from modelo._db import db
 from modelo.producto import search
 
 app = Flask(__name__)
-
-app.config.from_object('config')
 db.init_app(app)
 
+app.config.from_object('config')
+
+# Registramos las rutas a usar.
 app.register_blueprint(producto_bp, url_prefix='/producto')
 app.register_blueprint(usuario_bp, url_prefix='/usuario')
 
@@ -27,9 +28,7 @@ def page_not_found(e):
 
 @app.route('/', methods=['GET'])
 def index():
-    # return render_template('index.html')
     return inicio()
-
 
 if __name__ == '__main__':
     app.debug = True

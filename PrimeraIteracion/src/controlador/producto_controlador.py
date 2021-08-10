@@ -22,10 +22,12 @@ app.config['MAIL_USE_SSL'] = True
 mail= Mail(app)
 
 def crear():
+  """Crear un producto."""
   if 'usuario' not in session:
     return redirect('/usuario/ingresar')
     
   product_form = ProductForm(request.form)
+  
   if request.method == 'GET':
     return render_template('CrearProducto/crear_producto.html', form = product_form)
   
@@ -50,34 +52,36 @@ def crear():
 
 def comprar(id):
   """Compra un producto."""
-  print(session["usuario"])
   product = Producto.query.get_or_404(id)
-  #compra = 'Producto: ' + str(product.nombre) + '\nDescripcion: ' + str(product.descripcion) + '\nPrecio: $' + str(product.precio)
   usuario_login = Usuario.query.filter_by(usuario = session["usuario"]).first()
   correo = usuario_login.correo
-  print(correo)
   msg = Message('MercaTodo: Correo de confirmación', sender = 'corgitech2021@gmail.com', recipients = [usuario_login.correo])
   msg.body =  'Gracias por su compra en MercaTodo.\nPuede ver los detalles de su compra escaneando el codigo QR adjunto'
+
   with app.open_resource("qrcode.png") as fp:
     msg.attach("qrcode.png", "image/png", fp.read())
   try:
     mail.send(msg)
   except:
     raise abort(500, 'Ocurrió un error al intentar enviar correo de compra al usuario. Intente hacer nuevamente su compra')
+
   return render_template('comprar.html', correo=correo, name=session["usuario"])
 
 def consultar():
   searchword = request.args.get('q')
   products = Producto.query.msearch(searchword, fields=['nombre','descripcion','palabras_clave'], limit=3)
+
   return render_template('consulta.html', products=products, name=session["usuario"])
 
 def masVendidos():
   """Página con los productos más vendidos"""
   consulta = Producto.query.order_by(Producto.cantidad_vendidos.desc())
+
   return render_template('masVendidos.html', consulta=consulta, name=session["usuario"])
 
 def single_page(id):
   product = Producto.query.get_or_404(id)
+
   return render_template('single_page.html', product=product, name=session["usuario"])
 
 def checkout(id):
@@ -93,6 +97,7 @@ def checkout(id):
   qr.make(fit=True)
   img = qr.make_image(fill='black', black_color='white')
   img.save('controlador/qrcode.png')
+
   return render_template('checkout.html', product=product, correo=correo, name=session["usuario"])
 
 def catalogo():
@@ -101,7 +106,10 @@ def catalogo():
 
 
 def index():
-  """Página principal de Mis Publicaciones."""
+  """Página principal de Mis Publicaciones.
+
+  Se pueden recibir peticiones para eliminar o actualizar.
+  """
   if 'usuario' not in session:
     return redirect('/usuario/ingresar')
 
@@ -142,12 +150,10 @@ def index():
 
     return redirect('/producto')
 
+  # Se obtienen todos los productos que el usuario ha creado.
   productos_id = list(map(lambda x: x.id_producto,
                       Crear.query.filter_by(usuario=session['usuario']).all()))
   productos = [Producto.query.filter_by(id=id).first() for id in productos_id]
-
-  print(productos)
-
 
   return render_template('MisProductos/misPublicaciones.html', title='Mis Publicaciones', 
                           productos=productos, name=session['usuario'])
