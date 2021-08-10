@@ -2,6 +2,7 @@ from modelo._db import db
 import controlador.usuario_controlador
 
 class Usuario(db.Model):
+  """Clase para los usuarios."""
   __tablename__ = 'usuario'
 
   usuario = db.Column(db.Unicode, primary_key=True)
