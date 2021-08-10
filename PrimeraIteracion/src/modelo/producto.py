@@ -4,7 +4,6 @@ from flask_msearch import Search
 
 search = Search(db=db)
 
-
 class Producto(db.Model):
   __tablename__ = 'producto'
 
