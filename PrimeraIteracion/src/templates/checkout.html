@@ -19,16 +19,31 @@
     <link href="css/form-validation.css" rel="stylesheet">
   </head>
   <body style="background-color:#BAD9DE;">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark"v>
+      <div class="container px-4 px-lg-5">
+          <a class="navbar-brand" href="/">Mercatodo</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="/producto">Mis Publicaciones</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5000/producto/masVendidos">Lo más vendido</a>
+                  </li>
+              </ul>
+          
+              <form class="d-flex" action="{{url_for('producto_bp.consultar')}}">
+                  <input class="form-control me-2" type="search" placeholder="Buscar producto" aria-label="Buscar producto" name="q">
+                  <button class="btn btn-outline-light" type="submit">Buscar</button>
+              </form>
+          </div>
+      </div>
+  </nav>
     
 <div class="container">
   <main>
-    <header>
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Mercatodo</a>
-        </div>
-      </nav>
-    </header>
     <div class="py-5 text-center" style="padding-top: 5rem!important;">
       <img class="d-block mx-auto mb-4" src="/../static/logo.png" alt="" width="15%">
       <h2>Carrito de compra</h2>
@@ -137,10 +152,5 @@
     <!-- Bootstrap core CSS <p class="mb-1">&copy; CorgiTech</p>-->
   </footer>
 </div>
-
-    <!--
-    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
-      <script src="form-validation.js"></script>-->
   </body>
 </html>
