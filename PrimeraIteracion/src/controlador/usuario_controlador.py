@@ -15,28 +15,16 @@ from cryptography.fernet import Fernet
 from flask_mail import Mail, Message
 
 from modelo._db import db
+from _app import app
 
 template_dir = os.path.abspath('../../templates')
-
-app = Flask(__name__)
 
 # Inicializar la clase Fernet con la llave que generamos.
 fernet = Fernet(b'tJg6ll_KljmoKvledZzcDBFskn7w3OmMokimkGBnFP0=')
 # Creamos una instancia de la clase correo.
-mail= Mail(app)
-
+mail = Mail(app)
 nombre_de_usuario = ''
 correo = ''
-
-# Configuraciones pertenecientes a flask_mail.
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'corgitech2021@gmail.com'
-app.config['MAIL_PASSWORD'] = 'fbgfqabyxaijedkf'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-
-mail= Mail(app)
 
 def generar_contrasena():
   """ 
@@ -46,7 +34,6 @@ def generar_contrasena():
   contrasena = ''.join(random.sample(string.ascii_lowercase, 10))
   encContrasena = fernet.encrypt(contrasena.encode())
   return encContrasena
-
 
 def registrar():
   """ 
@@ -59,13 +46,9 @@ def registrar():
   global correo
 
   comment_form = CommentForm(request.form)
-
   correo = comment_form.correo.data
-
-  checando_usuario = modelo.usuario.Usuario.query.filter_by(usuario = comment_form.usuario.data).first()
-
-  checando_correo = modelo.usuario.Usuario.query.filter_by(correo = comment_form.correo.data).first()
-
+  checando_usuario = modelo.usuario.Usuario.query.filter_by(usuario=comment_form.usuario.data).first()
+  checando_correo = modelo.usuario.Usuario.query.filter_by(correo=comment_form.correo.data).first()
 
   # Si el usuario está en una sesión y quiere acceder a iniciar sesión
   # lo redirigimos a la página de inicio-usuario
@@ -78,17 +61,16 @@ def registrar():
 
       if checando_usuario is not None:
         flash("El nombre de usuario ya está en uso.")
-        return render_template('/RegistrarUsuario/index.html', form = comment_form)
+        return render_template('/RegistrarUsuario/index.html', form=comment_form)
       
       if checando_correo is not None:
         flash("El correo ya está en uso.")
-        return render_template('/RegistrarUsuario/index.html', form = comment_form)
+        return render_template('/RegistrarUsuario/index.html', form=comment_form)
 
       try:
-        usuario_nuevo = modelo.usuario.Usuario( usuario = comment_form.usuario.data,
-                                                correo = comment_form.correo.data,
-                                                telefono = comment_form.telefono.data
-                                              )
+        usuario_nuevo = modelo.usuario.Usuario(usuario=comment_form.usuario.data,
+                                                correo=comment_form.correo.data,
+                                                telefono=comment_form.telefono.data)
         db.session.add(usuario_nuevo)
         db.session.commit()
       except:
@@ -111,8 +93,9 @@ def correo_confirmacion():
   la ayuda de "generar_contrasena()".
   """
   usuario_actual = modelo.usuario.Usuario.query.filter_by(correo = correo).first()
-  msg = Message('MercaTodo: Correo de confirmación', sender = 'corgitech2021@gmail.com', recipients = [usuario_actual.correo])
-  msg.body =  'Gracias por crear su cuenta en MercaTodo.\n' + 'Su contrasena para acceder al sistema es:\n' + str(fernet.decrypt(usuario_actual.contrasena.encode()).decode())
+  msg = Message('MercaTodo: Correo de confirmación', 
+                sender = 'corgitech2021@gmail.com', recipients=[usuario_actual.correo])
+  msg.body = 'Gracias por crear su cuenta en MercaTodo.\n' + 'Su contrasena para acceder al sistema es:\n' + str(fernet.decrypt(usuario_actual.contrasena.encode()).decode())
 
   try:
     mail.send(msg)
@@ -147,11 +130,11 @@ def login():
 
     if request.method == 'POST' and login_form.validate():
       # Nos devuelve un usuario (objeto) dado el usuario de la petición. 
-      usuario_login = modelo.usuario.Usuario.query.filter_by(usuario = login_form.usuario.data).first()
+      usuario_login = modelo.usuario.Usuario.query.filter_by(usuario=login_form.usuario.data).first()
 
       if(usuario_login is None):
         flash("El nombre de usuario no está asociado a ningún registro.")
-        return render_template('/IniciarSesion/index.html', form = login_form)
+        return render_template('/IniciarSesion/index.html', form=login_form)
       
       nombre_de_usuario = login_form.usuario.data
 
@@ -160,9 +143,9 @@ def login():
         return redirect(url_for('usuario_bp.inicio'))
       else:
         flash("Contraseña incorrecta, inténtelo de nuevo.")
-        return render_template('/IniciarSesion/index.html', form = login_form)
+        return render_template('/IniciarSesion/index.html', form=login_form)
 
-    return render_template('/IniciarSesion/index.html', form = login_form)
+    return render_template('/IniciarSesion/index.html', form=login_form)
 
 def inicio():
   #Si el usuario no está en sesión lo redirigimos a la página de inicio de sesión.
@@ -178,5 +161,3 @@ def inicio():
   
 def logout():
   session.pop('usuario')
-
-

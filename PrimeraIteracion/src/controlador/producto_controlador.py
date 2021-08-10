@@ -1,4 +1,3 @@
-from modelo._db import db
 from wtforms import form
 from flask import render_template, redirect, url_for, request, flash, session, Flask, abort
 from modelo.producto import Producto, search
@@ -9,17 +8,10 @@ import qrcode
 from templates.CrearProducto.forms import ProductForm
 from PIL import Image
 
-app = Flask(__name__)
+from modelo._db import db
+from _app import app
 
-# Correo
-mail= Mail(app)
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'corgitech2021@gmail.com'
-app.config['MAIL_PASSWORD'] = 'fbgfqabyxaijedkf'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-mail= Mail(app)
+mail = Mail(app)
 
 def crear():
   """Crear un producto."""
@@ -27,9 +19,9 @@ def crear():
     return redirect('/usuario/ingresar')
     
   product_form = ProductForm(request.form)
-  
+
   if request.method == 'GET':
-    return render_template('CrearProducto/crear_producto.html', form = product_form)
+    return render_template('CrearProducto/crear_producto.html', form=product_form)
   
   if request.method == 'POST' and product_form.validate():
     nombre = product_form.nombre.data
@@ -37,7 +29,6 @@ def crear():
     imagen = product_form.imagen.data
     precio = product_form.precio.data
     palabras_clave = product_form.palabras_clave.data
-
 
     producto_nuevo = Producto(nombre, descripcion, imagen,
                                 precio, palabras_clave)
@@ -48,14 +39,17 @@ def crear():
     db.session.commit()
 
     flash('Se ha creado el producto con éxito')
+
     return redirect('/producto')
 
 def comprar(id):
   """Compra un producto."""
   product = Producto.query.get_or_404(id)
-  usuario_login = Usuario.query.filter_by(usuario = session["usuario"]).first()
+  usuario_login = Usuario.query.filter_by(usuario=session["usuario"]).first()
   correo = usuario_login.correo
-  msg = Message('MercaTodo: Correo de confirmación', sender = 'corgitech2021@gmail.com', recipients = [usuario_login.correo])
+  msg = Message('MercaTodo: Correo de confirmación',
+                sender='corgitech2021@gmail.com',
+                recipients=[usuario_login.correo])
   msg.body =  'Gracias por su compra en MercaTodo.\nPuede ver los detalles de su compra escaneando el codigo QR adjunto'
 
   with app.open_resource("qrcode.png") as fp:
@@ -86,15 +80,19 @@ def single_page(id):
 
 def checkout(id):
   product = Producto.query.get_or_404(id)
+
   product.cantidad_vendidos += 1
   db.session.merge(product)
   db.session.commit()
-  usuario_login = Usuario.query.filter_by(usuario = session["usuario"]).first()
+
+  usuario_login = Usuario.query.filter_by(usuario=session["usuario"]).first()
   correo = usuario_login.correo
   compra = 'DETALLES DE COMPRA\n' + 'Cliente: ' + str(session["usuario"]) + '\nProducto: ' + str(product.nombre) + '\nDescripcion: ' + str(product.descripcion) + '\nPrecio: $' + str(product.precio)
   qr = qrcode.QRCode(version=1, box_size=10, border=5)
+
   qr.add_data(compra)
   qr.make(fit=True)
+
   img = qr.make_image(fill='black', black_color='white')
   img.save('controlador/qrcode.png')
 

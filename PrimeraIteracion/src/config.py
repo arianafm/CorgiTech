@@ -3,14 +3,17 @@ import os
 # Configuración del servidor.
 
 SECRET_KEY = os.urandom(32)
-
-# Grabs the folder where the script runs.
 basedir = os.path.abspath(os.path.dirname(__file__))
-
 DEBUG = True
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Conexión a la base de datos.
 SQLALCHEMY_DATABASE_URI = 'mysql://root:password@localhost/mercatodo'
 
-# Turn off the Flask-SQLAlchemy event system and warning
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+# Configuración del correo
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 465
+MAIL_USERNAME = 'corgitech2021@gmail.com'
+MAIL_PASSWORD = 'fbgfqabyxaijedkf'
+MAIL_USE_TLS = False
+MAIL_USE_SSL = True
