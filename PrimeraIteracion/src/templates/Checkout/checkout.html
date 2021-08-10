@@ -1,0 +1,52 @@
+{% extends 'Navbar.html' %}
+{% block content %}
+
+<div class="container container_form">
+    <main>
+      <div class="py-5 text-center" style="padding-top: 5rem!important;">
+        <img class="d-block mx-auto mb-4" src="/../static/logo.png" alt="" width="15%">
+        <h2>Carrito de compra</h2>
+      </div>
+  
+      <div class="row g-5">
+        <div class="col-md-5 col-lg-4 order-md-last">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-primary">Tu carrito</span>
+            <span class="badge bg-primary rounded-pill">1</span>
+          </h4>
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">{{product.nombre}}</h6>
+                <small class="text-muted">{{product.descripcion}}</small>
+              </div>
+              <span class="text-muted">${{product.precio}}</span>
+            </li>
+            
+           
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total</span>
+              <strong>${{product.precio}}</strong>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-7 col-lg-8">
+          <h4 class="mb-3">Datos de envío</h4>
+        {% from "Checkout/_macro.html" import render_field %}
+        <form method="POST">
+            {{render_field(form.nombres,  class="form-control")}}
+            <span class="brmedium"></span>
+            {{render_field(form.apellidos, class="form-control")}}
+            <span class="brmedium"></span>
+            {{render_field(form.direccion, class="form-control")}}
+            <span class="brmedium"></span>
+            {{render_field(form.cp, class="form-control")}}
+            <button type="submit"  name="comprar" class="w-100 btn btn-primary btn-lg">Comprar</button>
+        </form>
+        </div>
+      </div>
+    </main>
+</div>
+
+{% endblock content %}

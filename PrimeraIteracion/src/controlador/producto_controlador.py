@@ -7,6 +7,7 @@ from modelo.usuario import Usuario
 from flask_mail import Mail, Message
 import qrcode
 from templates.CrearProducto.forms import ProductForm
+from templates.Checkout.forms import CForm
 from PIL import Image
 
 app = Flask(__name__)
@@ -80,7 +81,7 @@ def single_page(id):
   product = Producto.query.get_or_404(id)
   return render_template('single_page.html', product=product, name=session["usuario"])
 
-def checkout(id):
+'''def checkout(id):
   product = Producto.query.get_or_404(id)
   product.cantidad_vendidos += 1
   db.session.merge(product)
@@ -93,7 +94,32 @@ def checkout(id):
   qr.make(fit=True)
   img = qr.make_image(fill='black', black_color='white')
   img.save('controlador/qrcode.png')
-  return render_template('checkout.html', product=product, correo=correo, name=session["usuario"])
+  return render_template('checkout.html', product=product, correo=correo, name=session["usuario"])'''
+
+def checkout(id):
+  product = Producto.query.get_or_404(id)
+  usuario_login = Usuario.query.filter_by(usuario = session["usuario"]).first()
+  correo = usuario_login.correo
+  c_form = CForm(request.form)
+  if request.method == 'POST' and c_form.validate():
+    product.cantidad_vendidos += 1
+    db.session.merge(product)
+    db.session.commit()
+    usuario_login = Usuario.query.filter_by(usuario = session["usuario"]).first()
+    correo = usuario_login.correo
+    compra = 'DETALLES DE COMPRA\n' + 'Cliente: ' + str(session["usuario"]) + '\nProducto: ' + str(product.nombre) + '\nDescripcion: ' + str(product.descripcion) + '\nPrecio: $' + str(product.precio)
+    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+    qr.add_data(compra)
+    qr.make(fit=True)
+    img = qr.make_image(fill='black', black_color='white')
+    img.save('controlador/qrcode.png')
+    print("QR generado")
+    flash('Gracias por su compra')
+    #return redirect(url_for('producto_bp.comprar'))
+    return redirect('/producto/product/'+str(id)+'/checkout/comprar')
+  else:
+    return render_template('Checkout/checkout.html', form = c_form, product=product, correo=correo)
+
 
 def catalogo():
   """Página con el catálogo de productos"""

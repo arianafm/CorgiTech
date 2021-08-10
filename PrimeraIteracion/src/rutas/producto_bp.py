@@ -12,6 +12,6 @@ producto_bp.route('/masVendidos', methods=['GET', 'POST'])(masVendidos)
 producto_bp.route('/catalogo', methods=['GET', 'POST'])(catalogo)
 producto_bp.route('/consultar', methods=['GET','POST'])(consultar)
 producto_bp.route('/product/<int:id>', methods=['GET'])(single_page)
-producto_bp.route('/product/<int:id>/checkout', methods=['GET'])(checkout)
+producto_bp.route('/product/<int:id>/checkout', methods=['GET', 'POST'])(checkout)
 producto_bp.route('/product/<int:id>/checkout/comprar', methods=['GET', 'POST'])(comprar)
 
