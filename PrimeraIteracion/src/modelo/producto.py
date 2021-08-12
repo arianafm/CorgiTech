@@ -21,7 +21,15 @@ class Producto(db.Model):
 
   def __init__(self, nombre, descripcion, imagen, 
                precio, palabras_clave):
-    """Crea un nuevo producto."""
+    """
+    Crea un nuevo producto.
+    Parámetros:
+      nombre -- el nombre del producto
+      descripcion -- la descripción del detalle del producto
+      imagen -- url relacionada a la imagen del producto
+      precio -- precio del producto
+      palabras_clave -- lista de palabras relacionadas a un producto separado por comas.
+    """
     self.nombre = nombre
     self.descripcion = descripcion
     self.imagen = imagen

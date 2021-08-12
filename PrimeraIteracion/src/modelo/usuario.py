@@ -11,6 +11,13 @@ class Usuario(db.Model):
   contrasena = db.Column(db.Unicode)
 
   def __init__(self, usuario, correo, telefono):
+    """"
+    Crea un nuevo usuario.
+    Parámetros:
+      usuario -- nombre de usuario del usuario a crear
+      correo -- correro asociado al usuario
+      telefono -- numero de teléfono del usuario
+    """
     self.usuario    = usuario
     self.correo     = correo
     self.telefono   = telefono

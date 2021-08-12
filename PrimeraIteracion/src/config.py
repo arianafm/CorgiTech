@@ -8,7 +8,7 @@ DEBUG = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Conexión a la base de datos.
-SQLALCHEMY_DATABASE_URI = 'mysql://root:password@localhost/mercatodo'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:@localhost/mercatodo'
 
 # Configuración del correo
 MAIL_SERVER = 'smtp.gmail.com'
