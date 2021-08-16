@@ -22,7 +22,7 @@ app.register_blueprint(usuario_bp, url_prefix='/usuario')
 @app.errorhandler(404)
 def page_not_found(e):
     """Método para manejar los errores de tipo 404."""
-    return "404 D:"
+    return render_template('404.html')
 
 @app.route('/', methods=['GET'])
 def index():
