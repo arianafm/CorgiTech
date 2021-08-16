@@ -6,6 +6,14 @@ from controlador.producto_controlador import index, crear, catalogo, masVendidos
 
 producto_bp = Blueprint('producto_bp', __name__)
 
+"""
+Rutas relacionadas a los productos
+- Crear un producto
+- Mostras catálogo de productos más vendidos
+- Consultar productos por búsqueda
+- Mostrar productos
+- Formulario de venta de un producto
+"""
 producto_bp.route('/', methods=['GET', 'POST'])(index)
 producto_bp.route('/crear', methods=['GET', 'POST'])(crear)
 producto_bp.route('/masVendidos', methods=['GET', 'POST'])(masVendidos)

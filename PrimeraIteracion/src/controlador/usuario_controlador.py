@@ -28,8 +28,8 @@ correo = ''
 
 def generar_contrasena():
   """ 
-  Función que se encarga de generar una cadena
-  aleatoria de longitud 10 y después la cifra.
+  Función que se encarga de generar una cadena aleatoria de longitud 10
+  para después cifrarla y devolverla.
   """
   contrasena = ''.join(random.sample(string.ascii_lowercase, 10))
   encContrasena = fernet.encrypt(contrasena.encode())
@@ -37,11 +37,10 @@ def generar_contrasena():
 
 def registrar():
   """ 
-  Función que dados los datos recabados en el
-  JSON que recibimos como petición, se encarga
-  de crear un objeto Usuario para después aña-
-  dirlo a la base de datos. Al terminar nos 
-  redirige a "correo_confirmación".
+  Función que dado un usuario que no este en una sesión y los datos re-
+  cabados en el formulario de la vista de RegistrarUsuario, se encarga 
+  de crear un objeto Usuario para posteriormente añadirlo a la base de
+  datos. Al terminar nos redirige a la función correo_confirmación().
   """
   global correo
 
@@ -50,11 +49,11 @@ def registrar():
   checando_usuario = modelo.usuario.Usuario.query.filter_by(usuario=comment_form.usuario.data).first()
   checando_correo = modelo.usuario.Usuario.query.filter_by(correo=comment_form.correo.data).first()
 
-  # Si el usuario está en una sesión y quiere acceder a iniciar sesión
-  # lo redirigimos a la página de inicio-usuario
+  # Si el usuario está en una sesión y quiere acceder a IniciarSesion
+  # lo redirigimos a la página de InicioUsuario
   if 'usuario' in session:
     return redirect(url_for('usuario_bp.inicio'))
-  #Si el usuario no está en una sesión y quiere acceder a iniciar sesión...
+  #Si el usuario no está en una sesión y quiere acceder a IniciarSesion...
   else:
 
     if request.method == 'POST' and comment_form.validate():
@@ -85,12 +84,10 @@ def registrar():
 
 def correo_confirmacion():
   """ 
-  Función que manda un correo de confirmación
-  de registro al usuario que se acaba de regis-
-  trar. El correo incluye nombre de usuario y
-  contraseña ya descifrada, recordemos que esta
-  última es generada por el propio sistema con
-  la ayuda de "generar_contrasena()".
+  Función que manda un correo de confirmación de registro al usuario que
+  se acaba de registrar. El correo incluye la contraseña del usuario des-
+  cifrada. Recordemos que esta última es generada por el propio sistema 
+  con la ayuda de "generar_contrasena()".
   """
   usuario_actual = modelo.usuario.Usuario.query.filter_by(correo = correo).first()
   msg = Message('MercaTodo: Correo de confirmación', 
@@ -109,13 +106,11 @@ def correo_confirmacion():
 
 def login():
   """ 
-  Función que dados los datos recabados en el
-  JSON que recibimos como petición (usuario y
-  contrasena) hace la busqueda del usuario en
-  la base de datos para posteriormente si se
-  encuentra al usuario y su contraseña es co-
-  rrecta le de acceso al sistema, en otro caso
-  se le niega el acceso.
+  Función que dado un usuario que no este en sesión y los datos recabados en
+  el formulario de IniciarSesion (usuario y contraseña) hace la búsqueda del
+  usuario en la base de datos para posteriormente si se encuentra al usuario
+  y si su contraseña es correcta, se inicie una sesión y con ella le de acceso
+  al sistema, en otro caso se le niega el acceso y no se crea la sesión.
   """
   global nombre_de_usuario 
 
@@ -148,6 +143,10 @@ def login():
     return render_template('/IniciarSesion/index.html', form=login_form)
 
 def inicio():
+  """ 
+  Función que dado un usuario en sesión lo redirige a la página InicioUsuario, 
+  si el usuario no está en sesión se le redirige a la página IniciarSesion.
+  """
   #Si el usuario no está en sesión lo redirigimos a la página de inicio de sesión.
   if 'usuario' not in session:
     return redirect('/usuario/ingresar')
@@ -160,4 +159,7 @@ def inicio():
 
   
 def logout():
+  """ 
+  Función que elimina la sesión de un usuario.
+  """
   session.pop('usuario')

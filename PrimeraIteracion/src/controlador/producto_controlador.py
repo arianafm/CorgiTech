@@ -15,7 +15,10 @@ from _app import app
 mail = Mail(app)
 
 def crear():
-  """Crear un producto."""
+  """
+  Crear un producto a partir de los datos ingresados en la
+  vista de crear producto.
+  """
   if 'usuario' not in session:
     return redirect('/usuario/ingresar')
     
@@ -44,7 +47,11 @@ def crear():
     return redirect('/producto')
 
 def comprar(id):
-  """Compra un producto."""
+  """
+  Compra un producto.
+  Parámetros:
+    id -- El identificador del producto a comprar.
+  """
   product = Producto.query.get_or_404(id)
   usuario_login = Usuario.query.filter_by(usuario=session["usuario"]).first()
   correo = usuario_login.correo
@@ -63,6 +70,10 @@ def comprar(id):
   return render_template('comprar.html', correo=correo, name=session["usuario"])
 
 def consultar():
+  """
+  Consulta la información de un producto.
+  Encuentra todas las coincidencias en nombre, descripción y palabras relacionadas del producto.
+  """
   searchword = request.args.get('q')
   products = Producto.query.msearch(searchword, fields=['nombre','descripcion','palabras_clave'], limit=3)
 
