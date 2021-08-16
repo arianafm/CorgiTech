@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Bienvenido</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/jumbotron/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/InicioUsuario/inicio_usuario.css"  rel="stylesheet">
+
+  
+  </head>
+  <body style="background-color:#BAD9DE;">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<main>
+  
+  <div class="container py-4">
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Mercatodo</a>
+        <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#Confirmar">Cerrar Sesión</button>
+      </div>
+      </nav>  
+    </header>
+
+    <div class="modal fade" id="Confirmar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Cierre de sesión</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+            <div class="modal-body" text-align=>
+            ¿Estás seguro de cerrar sesión?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+              <form method="POST">
+                <button class="btn btn-danger" type="submit">Sí</button>
+              </form>
+            </div>
+          </div>
+        </div>    
+    </div>
+
+    <div class="mb-4 border-bottom" style="border-bottom: 3px solid #000000!important;">
+      <br>
+      <br>
+      <img src="../../static/logo.png" class="mx-auto d-block"  width="150" height="150">
+      <blockquote class="blockquote text-center">
+        <p class="mb-0" style="margin-top: 15px; font-size: 35px;">Bienvenido</p>
+      </blockquote>
+      
+    </div>
+
+    <div class="row align-items-md-stretch">
+      <div class="col-md-6">
+        <div class="h-100 p-5 bg-light rounded-3">
+          <h2>Quiero Comprar</h2>
+          <p>¿Deseas buscar un producto? Aquí encontrarás un amplio catálogo de 
+          productos que podrás adquirir.</p>
+          <a href="http://127.0.0.1:5000/producto/catalogo" class="btn btn-outline-secondary" type="button">COMPRAR</a>
+          <!-- <button class="btn btn-outline-secondary" type="button"  href="http://127.0.0.1:5000/producto/catalogo">COMPRAR</button> -->
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="h-100 p-5 bg-dark text-white border rounded-3">
+          <h2>Quiero Vender</h2>
+          <p>En esta sección podrás dar de alta productos para vender, así como
+          administrar los productos que tienes en venta.</p>
+          <!-- <button class="btn btn-outline-light" type="button">VENDER</button> -->
+          <a href="http://127.0.0.1:5000/producto/" class="btn btn-outline-light" type="button">VENDER</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+  </body>
+</html>

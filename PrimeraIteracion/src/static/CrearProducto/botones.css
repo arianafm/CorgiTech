@@ -1,0 +1,17 @@
+.editBoton {
+    border-radius: 100%;
+    border-color: black;
+}
+
+.editBoton:hover {
+    background-color: #000100;
+    border-color: white;
+}
+
+svg:hover {
+    filter: invert();
+}
+
+.deleteBoton {
+    border-radius: 100%;
+}

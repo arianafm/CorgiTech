@@ -1,0 +1,41 @@
+{% extends 'Navbar.html' %}
+{% block content %}
+
+    <div class="container container_form">
+      <main>
+        <div class="py-5 text-center">
+          <p class="lead">Ingresa todos la la información solicitada para crear tu nuevo producto.</p>
+        </div>
+
+        <div>
+
+          <div>
+            <h4 class="mb-3">Información del producto</h4>
+            
+            {% from "CrearProducto/_macro.html" import render_field %}
+            <form method="POST">
+              {{render_field(form.nombre, class="form-control")}}
+              <span class="brmedium"></span>
+              {{render_field(form.descripcion, class="form-control")}}
+              <span class="brmedium"></span>
+              {{render_field(form.imagen, class="form-control")}}
+              <span class="brmedium"></span>
+              {{render_field(form.precio, class="form-control")}}
+              <span class="brmedium"></span>
+              {{render_field(form.palabras_clave, class="form-control")}}
+
+              <hr class="my-4">
+              <div style = "text-align: center;">
+                <button class="w-20 btn btn-outline-dark" type="submit">Crear producto</button>  
+              </div>
+              
+
+            </form>
+            
+          </div>
+        </div>
+      </main>
+      
+    </div>
+
+{% endblock content %}
