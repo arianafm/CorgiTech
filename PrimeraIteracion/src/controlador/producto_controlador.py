@@ -75,30 +75,23 @@ def masVendidos():
   return render_template('masVendidos.html', consulta=consulta, name=session["usuario"])
 
 def single_page(id):
+  """
+  Página que despliega la iformación 
+  del producto seleccionado y la muestra al usuario.
+  Parámetros:
+    id -- El identificador del producto a consultar.
+  """
   product = Producto.query.get_or_404(id)
-
   return render_template('single_page.html', product=product, name=session["usuario"])
 
-'''def checkout(id):
-  product = Producto.query.get_or_404(id)
-
-  product.cantidad_vendidos += 1
-  db.session.merge(product)
-  db.session.commit()
-
-  usuario_login = Usuario.query.filter_by(usuario=session["usuario"]).first()
-  correo = usuario_login.correo
-  compra = 'DETALLES DE COMPRA\n' + 'Cliente: ' + str(session["usuario"]) + '\nProducto: ' + str(product.nombre) + '\nDescripcion: ' + str(product.descripcion) + '\nPrecio: $' + str(product.precio)
-  qr = qrcode.QRCode(version=1, box_size=10, border=5)
-
-  qr.add_data(compra)
-  qr.make(fit=True)
-
-  img = qr.make_image(fill='black', black_color='white')
-  img.save('controlador/qrcode.png')
-  return render_template('checkout.html', product=product, correo=correo, name=session["usuario"])'''
-
 def checkout(id):
+  """
+  Página que despliega el checkout del producto
+  seleccionado y la muestra al usuario para 
+  continuar con los datos de compra.
+  Parámetros:
+    id -- El identificador del producto a consultar.
+  """
   product = Producto.query.get_or_404(id)
   usuario_login = Usuario.query.filter_by(usuario = session["usuario"]).first()
   correo = usuario_login.correo
