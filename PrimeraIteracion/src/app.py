@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, session, redirect
 from flask.templating import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
@@ -22,6 +22,8 @@ app.register_blueprint(usuario_bp, url_prefix='/usuario')
 @app.errorhandler(404)
 def page_not_found(e):
     """Método para manejar los errores de tipo 404."""
+    if 'usuario' not in session:
+    	return redirect('/usuario/ingresar')
     return render_template('404.html')
 
 @app.route('/', methods=['GET'])
