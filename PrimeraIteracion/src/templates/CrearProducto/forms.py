@@ -24,8 +24,8 @@ class ProductForm(Form):
             ]
             )
     precio = IntegerField('Precio del producto:',
-            [
-                validators.NumberRange(min=0, message="El precio no puede ser negativo"),
+            validators=[
+                validators.NumberRange(min=1),
                 validators.Required(message = "El precio del producto es requerido.")
             ])
     palabras_clave = StringField('Palabras relacionadas:',
