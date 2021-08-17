@@ -118,7 +118,7 @@ def checkout(id):
     qr.add_data(compra)
     qr.make(fit=True)
     img = qr.make_image(fill='black', black_color='white')
-    img.save('controlador/qrcode.png')
+    img.save('qrcode.png')
     print("QR generado")
     flash('Gracias por su compra')
     #return redirect(url_for('producto_bp.comprar'))
